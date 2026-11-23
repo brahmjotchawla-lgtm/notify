@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Delivery routing + roles board. Usage: python test_delivery.py
+  - deliver():     what buzzes the phone vs. lands on the board only
+  - board_merge(): newest-first, deduped by id, aged out, capped
+  - role_pay():    structured pay beats description pay beats cached midpoint
+No network: push_role is stubbed."""
+import sys
+import time
+
+import watch
+
+fails = []
+
+
+def check(name, got, want):
+    if got != want:
+        fails.append(f"{name}: got {got!r}, want {want!r}")
+
+
+def rec(i, tier, score, bigco=False):
+    return {"id": f"t:{i}", "company": f"Co{i}", "title": "Hardware Intern", "location": "Austin, TX",
+            "url": f"https://x/{i}", "score": score, "tier": tier, "bigco": bigco, "geo": "us",
+            "posted": 0, "published": 0, "pay": "", "season": ""}
+
+
+def test_deliver():
+    sent = []
+    watch.push_role = lambda r, p: sent.append((r["id"], p))
+    now = time.time()
+    out = watch.deliver(
+        [rec(1, "A", 5), rec(2, "A", 4, bigco=True)],
+        [rec(3, "B", 4), rec(4, "B", 1), rec(5, "B", 4, bigco=True)], now)
+    by = {r["id"]: r["delivery"] for r in out}
+    check("tierA_startup_high", by["t:1"], "high")
+    check("tierA_bigco_default", by["t:2"], "default")
+    check("tierB_target_default", by["t:3"], "default")
+    check("tierB_weak_board", by["t:4"], "board")
+    check("tierB_bigco_default", by["t:5"], "default")
+    check("only_pushes_sent", sorted(sent), [("t:1", "high"), ("t:2", "default"), ("t:3", "default"), ("t:5", "default")])
+    check("found_stamped", all(r["found"] == now for r in out), True)
+
+
+def test_deliver_filters():
+    watch.push_role = lambda r, p: None
+    vague = {**rec(10, "A", 4), "url": "https://www.linkedin.com/jobs/view/1", "location": "Massachusetts"}
+    real = {**rec(11, "A", 4), "url": "https://www.linkedin.com/jobs/view/2", "location": "Boston, MA"}
+    foreign = {**rec(12, "B", 5), "geo": "tierb", "location": "Toronto, ON, Canada"}
+    unknown = {**rec(13, "B", 5), "geo": "unknown", "location": ""}
+    city = {**rec(14, "B", 5), "geo": "unknown", "location": "Brno"}
+    by = {r["id"]: r["delivery"] for r in watch.deliver([vague, real], [foreign, unknown, city], time.time())}
+    check("unrecognized_city_tierb_not_pushed", by["t:14"], "board")
+    check("linkedin_bare_state_not_pushed", by["t:10"], "board")
+    check("linkedin_with_city_pushed", by["t:11"], "high")
+    check("foreign_tierb_not_pushed", by["t:12"], "board")
+    check("unknown_geo_tierb_pushed", by["t:13"], "default")
+
+
+def test_deliver_cap():
+    sent = []
+    watch.push_role = lambda r, p: sent.append(r["id"])
+    watch.CFG["max_alerts_per_run"] = 2
+    try:
+        out = watch.deliver([rec(i, "A", 5) for i in range(4)], [], time.time())
+    finally:
+        watch.CFG.pop("max_alerts_per_run")
+    check("cap_pushes", len(sent), 2)
+    check("overflow_kept_on_board", [r["delivery"] for r in out].count("board"), 2)
+
+
+def test_board_merge():
+    now = time.time()
+    old = {**rec(1, "A", 5), "found": now - 90 * 86400}
+    backfill = {**rec(2, "B", 1), "found": 0}
+    dup_old = {**rec(3, "A", 5), "found": now - 100, "title": "old copy"}
+    new = [{**rec(3, "A", 5), "found": now, "title": "new copy"}, {**rec(4, "A", 5), "found": now}]
+    out = watch.board_merge([old, backfill, dup_old], new)
+    check("order_newest_first", [r["id"] for r in out], ["t:3", "t:4", "t:2"])
+    check("dedup_keeps_newest", out[0]["title"], "new copy")
+    big = watch.board_merge([], [{**rec(i, "B", 1), "found": now} for i in range(watch.BOARD_MAX + 5)])
+    check("capped", len(big), watch.BOARD_MAX)
+
+
+def test_role_pay():
+    check("struct_wins", watch.role_pay({"pay_struct": (28, 34)}, {"pay_range": (40, 50)}), "$28-34/hr")
+    check("desc_range", watch.role_pay({}, {"pay_range": [40, 50]}), "$40-50/hr")
+    check("cached_midpoint", watch.role_pay({}, {"pay": 31.0}), "$31/hr")
+    check("none", watch.role_pay({}, {}), "")
+
+
+def test_deliver_stale():
+    """A posting older than push_max_age_days lands on the board, never buzzes; an
+    unknown date isn't proof of age, so it still pushes."""
+    sent = []
+    watch.push_role = lambda r, p: sent.append(r["id"])
+    now = time.time()
+    old = {**rec(1, "A", 5), "published": now - 60 * 86400}
+    edited = {**rec(2, "A", 5), "published": now - 60 * 86400, "posted": now - 86400}
+    fresh = {**rec(3, "A", 5), "published": now - 2 * 86400}
+    undated = rec(4, "A", 5)
+    out = watch.deliver([old, edited, fresh, undated], [], now)
+    by = {r["id"]: r["delivery"] for r in out}
+    check("stale_board", by["t:1"], "board")
+    check("stale_edit_doesnt_refresh", by["t:2"], "board")
+    check("fresh_high", by["t:3"], "high")
+    check("undated_high", by["t:4"], "high")
+    check("stale_not_sent", sorted(sent), ["t:3", "t:4"])
+
+
+if __name__ == "__main__":
+    test_deliver()
+    test_deliver_filters()
+    test_deliver_cap()
+    test_deliver_stale()
+    test_board_merge()
+    test_role_pay()
+    if fails:
+        print("FAIL\n  " + "\n  ".join(fails))
+        sys.exit(1)
+    print("OK - all delivery tests passed")

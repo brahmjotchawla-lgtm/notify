@@ -1,0 +1,1380 @@
+#!/usr/bin/env python3
+"""
+notify - Summer 2027 SWE/ML/quant internship alerts (fork of AbhigyaGoel/vigil, MIT).
+
+Runs on GitHub Actions. Pulls the curated boards, the aggregator feeds and Workday,
+filters with a per-source policy, scores each survivor software/ML-first, and splits:
+  Tier A -> ntfy push (score >= 3, US, Summer-2027-eligible). Startups push at high
+            priority, big companies (config big_companies) at default.
+  Tier B -> not pushed, except target-grade roles with an unclear location/season.
+Every surviving role lands in roles.json as the reference board, with pay and an
+absolute found-at time. This fork dropped upstream's optional Cloudflare worker, so
+Actions owns every source; SKIP_ATS would skip the curated boards and is left unset.
+
+Design notes live in README + config.json. Rails (section F): dropping requires
+positive evidence, ambiguity routes to Tier B, every drop is logged, and a
+config-hash guard forces a silent reseed when filters change.
+
+Modes:
+  python watch.py --once           single pass (GitHub Actions)
+  python watch.py --dry            per-source/per-tier table, sends nothing
+  python watch.py --explain <id>   full decision trace for one job id
+  python watch.py --backfill-board seed roles.json with every currently-open match
+
+Stdlib only.
+"""
+
+import html
+import json
+import os
+import re
+import sys
+import time
+import urllib.error
+import urllib.request
+import xml.etree.ElementTree as ET
+from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
+from hashlib import sha256
+from pathlib import Path
+
+import display
+import fit as fitmod
+
+ROOT = Path(__file__).parent
+UA = {"User-Agent": "notify/1.0 (fork of github.com/AbhigyaGoel/vigil)"}
+NTFY_RETRY_DELAYS = (2, 5, 0)   # seconds to wait after attempts 1 and 2; 3 attempts total
+
+
+def load_config():
+    cfg = json.loads((ROOT / "config.json").read_text(encoding="utf-8-sig"))
+    local = ROOT / "config.local.json"
+    if local.exists():
+        cfg.update(json.loads(local.read_text(encoding="utf-8-sig")))
+    if os.environ.get("NTFY_TOPIC"):
+        cfg["ntfy_topic"] = os.environ["NTFY_TOPIC"]
+    if os.environ.get("NTFY_TOKEN"):   # per-account quota instead of the shared-IP one
+        cfg["ntfy_token"] = os.environ["NTFY_TOKEN"]
+    return cfg
+
+
+CFG = load_config()
+SEEN_PATH = ROOT / "seen.json"
+ENRICH_PATH = ROOT / "enrichment.json"
+STATE_PATH = ROOT / "state.json"
+ROLES_PATH = ROOT / "roles.json"   # the roles board (served by the worker)
+
+
+def rx(key, default=None):
+    v = CFG.get(key, default)
+    if isinstance(v, list):
+        v = "|".join(v)
+    return re.compile(v, re.I) if v else None
+
+
+INCLUDE = rx("include_keywords")
+EXCLUDE = rx("exclude_keywords")
+ATS_REQUIRE = rx("ats_require")
+TAGGED_SUB = rx("tagged_subregex")
+SEASON_TITLE = rx("season_title_drop")
+CLEARANCE = rx("desc_clearance")
+DESC_HW = rx("desc_hw_keywords")
+TIER_B_CO = rx("tier_b_countries")
+DROP_CO = rx("drop_countries")
+US_PLACE = rx("us_places")
+# exclude_companies: wrap in word boundaries so 'axon' doesn't hit 'Axoni'.
+_eco = CFG.get("exclude_companies") or []
+EXCLUDE_CO = re.compile(r"\b(?:" + "|".join(_eco) + r")\b", re.I) if _eco else None
+# big_companies: established corporates. Their roles still land on the board but
+# never buzz the phone. Leading \b only, so 'samsung' also hits the
+# 'samsungsemiconductor' slug; entries that need a trailing boundary carry it.
+_big = CFG.get("big_companies") or []
+BIG_CO = re.compile(r"\b(?:" + "|".join(_big) + r")", re.I) if _big else None
+_edge = CFG.get("edge_companies") or []
+EDGE_CO = re.compile(r"\b(?:" + "|".join(_edge) + r")", re.I) if _edge else None
+FIT = fitmod.Fit(CFG)
+# target_companies: the tier bar. A role at a listed company (or on a curated board) is
+# judged on title alone; anywhere else it needs a strong resume fit and pushes quieter.
+_tgt = CFG.get("target_companies") or []
+TARGET_CO = re.compile(r"\b(?:" + "|".join(_tgt) + r")", re.I) if _tgt else None   # resume fit on a posting's duties + qualifications (fit.py)
+
+
+def push_stale(rec, now):
+    """Posted longer ago than push_max_age_days -> board-only, never a push. Prefers the
+    first-published stamp (Greenhouse updated_at bumps on every edit). An unknown date
+    is not proof of age, so it still pushes. Mirrors filters.mjs pushStale."""
+    days = CFG.get("push_max_age_days") or 0
+    born = rec.get("published") or rec.get("posted") or 0
+    return bool(days and born and now - born > days * 86400)
+
+
+def is_bigco(company):
+    """Mirrors filters.mjs isBigCo (parity 'bigco')."""
+    return bool(BIG_CO and company and BIG_CO.search(company))
+
+# Curated priority: a hand-picked company's intern always DELIVERS, but only a
+# hardware/robotics-relevant title earns instant Tier A. A clearly off-target
+# function (IT, generic SWE, ML, biomedical) with no hardware signal routes to the
+# Tier B hourly batch instead. Mirrors filters.mjs curatedRelevant (parity 'relevance').
+# Generic software/ML titles: off-target on their own, but on-target at an edge company
+# (defense neoprime / new-space) or when the description shows embedded/firmware/flight-SW
+# work - one "Software Engineer Intern" req often spans firmware, flight SW and apps.
+# Mirrors filters.mjs SOFT_ENG_TITLE / NONENG_TITLE.
+SOFT_ENG_TITLE = re.compile(
+    r"\b(?:software|swe|full ?stack|front ?end|back ?end|machine learning|ml|ai engineer\w*|"
+    r"developer|data engineer\w*)\b", re.I)
+NONENG_TITLE = re.compile(
+    r"\b(?:web developer|information technology|"
+    r"sys ?admin|systems? administrator|help ?desk|data scien|data analyst|"
+    r"biomedical|clinical|finance|financial|business|product manag\w*|program manag\w*|"
+    r"\bTPM\b|technical program manag\w*|supply chain|human resources|\bHR\b|recruiting|legal|"
+    r"communications?|public relations|technical writ\w*|customer (?:success|support|experience)|"
+    r"account manag\w*|strateg\w*|marketplace|\bIT\b|IT specialist|people operations|"
+    r"product intern|business development|supply (?:chain|management)|content|creator|"
+    r"cyber ?security|growth|graphic|product & design|\bMES\b|artist|procurement|contracts)\b", re.I)
+
+
+def is_edge(company):
+    """Defense neoprime / new-space company (config edge_companies). Checks the slug
+    and its display name, so the 'applied' slug still reads as Applied Intuition.
+    Mirrors filters.mjs isEdge."""
+    return bool(EDGE_CO and company and (EDGE_CO.search(company)
+                                         or EDGE_CO.search(display_company(company) or "")))
+
+
+def is_target(company):
+    """Company on the target_companies list (slug or display name)."""
+    return bool(TARGET_CO and company and (TARGET_CO.search(company)
+                                           or TARGET_CO.search(display_company(company) or "")))
+
+
+def offlist_candidate(title):
+    """An engineering title an off-list company may still alert on, if the description fits."""
+    t = title or ""
+    return bool((INCLUDE and INCLUDE.search(t)) or SOFT_ENG_TITLE.search(t)) \
+        and not NONENG_TITLE.search(t) and not FIT.off_specialty(t)
+
+
+def soft_eng_title(title):
+    """Generic software/ML title with nothing non-engineering in it."""
+    return bool(SOFT_ENG_TITLE.search(title or "") and not NONENG_TITLE.search(title or ""))
+
+
+def fit_candidate(title):
+    """A generic software/ML title the resume-fit check may rescue: not a
+    non-engineering function, and not an off-target specialty (Android, Frontend,
+    Infrastructure...) - the title says what the work is."""
+    return soft_eng_title(title) and not FIT.off_specialty(title)
+
+
+def soft_eng_rescued(title, company, desc=""):
+    """A generic software/ML title whose duties + qualifications are a strong resume
+    fit. An edge company (defense neoprime / new-space) gets a lower bar, never a
+    bypass: its web/mobile/infra roles are no better a fit than anyone else's."""
+    return fit_candidate(title) and FIT.ok(FIT.score(desc), edge=is_edge(company))
+
+
+def curated_relevant(title, company="", desc=""):
+    if INCLUDE and INCLUDE.search(title or ""):   # explicit hardware/robotics signal
+        return True
+    if not (SOFT_ENG_TITLE.search(title or "") or NONENG_TITLE.search(title or "")):
+        return True                               # generic "Engineering Intern" etc.
+    return soft_eng_rescued(title, company, desc)
+
+
+# ---------------- dedup keys ----------------
+# Three repeat shapes to kill:
+#  (A) cross-feed: the SAME role arrives via different feeds/URLs (e.g. a greenhouse
+#      role once as ?gh_jid=NNN&utm_source=Simplify and once as a clean board URL).
+#      Raw-id dedup misses it because each feed mints its own id. canon_key() pins the
+#      stable ATS job-id (or a tracking-stripped URL) so both collapse to one.
+#  (B) cross-system: a curated company (worker-owned when SKIP_ATS=1) also surfaces in
+#      an aggregator feed here, so the user gets it once from the worker and once from
+#      watch.py under a different display name. worker_owned() drops our copy.
+#  (C) cross-domain: the SAME role reaches vigil via a scraped mirror (IEEE markdown's
+#      LinkedIn/Indeed links) AND a direct-ATS source (Workday/discovery/listings),
+#      with URLs on entirely different domains - canon_key's URL matching can't unify
+#      those. content_key() falls back to company+title+city, specific enough that two
+#      genuinely different reqs rarely collide.
+def _bare(slug):
+    return slug.split("@", 1)[0].lower()   # "cirrus@eu" -> "cirrus"
+
+
+_CURATED = {"gh": {_bare(s) for s in CFG.get("greenhouse", [])},
+            "lv": {_bare(s) for s in CFG.get("lever", [])},
+            "ab": {_bare(s) for s in CFG.get("ashby", [])}}
+
+
+def _norm_name(s):
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+
+_CURATED_NAMES = {_norm_name(s) for slugs in _CURATED.values() for s in slugs}
+_CURATED_NAMES |= {_norm_name(a) for a in CFG.get("curated_aliases", [])}
+_CURATED_NAMES.discard("")
+
+_ATS_URL = [
+    ("gh", re.compile(r"(?:job-)?boards(?:-api)?\.greenhouse\.io/(?:v1/boards/)?([^/?#]+)", re.I)),
+    ("lv", re.compile(r"(?:jobs|api)(?:\.eu)?\.lever\.co/(?:v0/postings/)?([^/?#]+)", re.I)),
+    ("ab", re.compile(r"(?:jobs|api)\.ashbyhq\.com/(?:posting-api/job-board/)?([^/?#]+)", re.I)),
+]
+
+
+def _ats_slug(url):
+    for plat, rx_ in _ATS_URL:
+        m = rx_.search(url or "")
+        if m:
+            return plat, m.group(1).lower()
+    return None
+
+
+def worker_owned(job):
+    """True when the Cloudflare worker already delivers this company (curated tier).
+    Matches either an ATS slug embedded in the URL or the normalized company name."""
+    hit = _ats_slug(job.get("url", ""))
+    if hit and hit[1] in _CURATED.get(hit[0], ()):
+        return True
+    return _norm_name(job.get("company", "")) in _CURATED_NAMES
+
+
+_GH_ID = re.compile(r"(?:gh_jid=|greenhouse\.io/(?:[^/]+/)*jobs/)(\d+)", re.I)
+_UUID = re.compile(
+    r"(?:lever\.co|ashbyhq\.com)/[^?#]*?"
+    r"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", re.I)
+_TRACK = re.compile(r"^(?:utm_|gh_src|ref$|ref=|source=|src=)", re.I)
+
+
+def canon_key(url):
+    """A stable identity for a posting, independent of which feed surfaced it.
+    Prefers the ATS job-id; falls back to a tracking-param-stripped URL."""
+    if not url:
+        return ""
+    m = _GH_ID.search(url)
+    if m:
+        return "k:gh:" + m.group(1)
+    m = _UUID.search(url)
+    if m:
+        return "k:uuid:" + m.group(1).lower()
+    u = re.sub(r"^https?://(?:www\.)?", "", url.strip(), flags=re.I)
+    base, _, q = u.split("#")[0].lower().partition("?")
+    base = base.rstrip("/")
+    if q:
+        keep = [p for p in q.split("&") if p and not _TRACK.match(p)]
+        u = base + ("?" + "&".join(keep) if keep else "")
+    else:
+        u = base
+    return "k:u:" + u
+
+
+def _norm_text(s):
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+# Boilerplate that varies between two postings of the SAME req (a listing site's own
+# mirror, or a big employer like Google re-listing one role per qualifying-degree/team
+# combo) without making them different roles - stripped before the title is compared.
+_TITLE_BOILERPLATE = re.compile(
+    r"[\(\[][^)\]]*[\)\]]|"  # any parenthetical/bracketed aside, e.g. "(BS/MS, Multiple Teams)"
+    r"\b(?:bs/ms|bs or ms|b\.?s\.?/m\.?s\.?|multiple teams|various teams|various locations|"
+    r"undergraduate|graduate|new grad|early career|"
+    r"(?:summer|fall|spring|winter)\s*20\d{2}|20\d{2})\b", re.I)
+
+
+def _norm_title(title):
+    return _norm_text(_TITLE_BOILERPLATE.sub(" ", title or ""))
+
+
+def content_key(company, title, location):
+    """Fallback identity for shape (C) - see dedup keys note above. Title boilerplate
+    (degree quals, "Multiple Teams", season/year) is stripped first so the SAME req
+    re-listed with a different qualifier suffix still collapses to one key."""
+    if not (company and title):
+        return ""
+    city = re.split(r"[,/;]", location or "")[0]
+    return "k:ct:" + "|".join([_norm_text(company), _norm_title(title), _norm_text(city)])
+
+
+CATS = [c.lower() for c in CFG.get("include_categories", [])]
+SOFT_CATS = [c.lower() for c in CFG.get("soft_categories", [])]
+DROP_SEASONS = set(CFG.get("season_drop_terms", []))
+A_SEASONS = set(CFG.get("season_a_terms", []))
+SCORING = [(w, re.compile(p, re.I)) for w, p in CFG.get("scoring", [])]
+MAX_AGE = CFG.get("max_age_days", 21) * 86400
+US_STATE = re.compile(r",\s*[A-Z]{2}(\b|$)")
+US_NAME = re.compile(r"\b(united states|usa|u\.s\.a?\.)\b", re.I)
+# ats_require lets "new grad"/"early career" programs through (some are intern
+# tracks); a title with no intern/co-op/student word is a full-time grad hire.
+INTERN_WORD = re.compile(r"\bintern(?!al)|co-?op|student", re.I)   # not "Internal Tools"
+NEWGRAD_ONLY = re.compile(r"new ?grad|graduate|early career|entry[- ]level|university grad", re.I)
+NEWGRAD = re.compile(r"new col|new ?grad|college grad|\bgraduate\b|university grad", re.I)
+
+ENRICH_FETCH = True      # network description fetch; off during seed and --dry
+ENRICH_BUDGET = [60]     # max Workday/Simplify detail fetches per run (bounds runtime)
+FIT_BUDGET = [40]        # separate budget for generic-SWE resume-fit fetches, so a backlog
+                         # of software listings can never starve the hardware fetches
+
+
+# ---------------- http ----------------
+
+def get_json(url, timeout=45):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8", "replace"))
+
+
+def get_text(url, timeout=30):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
+        return r.read().decode("utf-8", "replace")
+
+
+def post_json(url, payload, timeout=25):
+    req = urllib.request.Request(url, data=json.dumps(payload).encode(),
+                                 headers={**UA, "Content-Type": "application/json"}, method="POST")
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8", "replace"))
+
+
+def to_epoch(val):
+    if not val:
+        return 0
+    if isinstance(val, (int, float)):
+        return val / 1000 if val > 1e12 else val
+    try:
+        return datetime.fromisoformat(str(val).replace("Z", "+00:00")).timestamp()
+    except Exception:
+        return 0
+
+
+# ---------------- season / geography ----------------
+
+def season_dropped(terms, title):
+    if title and SEASON_TITLE and SEASON_TITLE.search(title):
+        return True
+    if terms:
+        tset = set(terms) if isinstance(terms, list) else {terms}
+        if tset and tset <= DROP_SEASONS:
+            return True
+    return False
+
+
+def season_a_eligible(terms):
+    """Disqualifying seasons were already dropped (season_dropped), so a role that
+    is untagged or tagged only 'N/A' is still a Summer-2027 candidate - Simplify
+    tags plenty of real 2027 internships N/A."""
+    if not terms:
+        return True
+    tset = set(terms) if isinstance(terms, list) else {terms}
+    return bool(tset & A_SEASONS) or tset <= {"N/A", "n/a", ""}
+
+
+def _seg_geo(seg):
+    s = seg.strip()
+    if not s:
+        return "unknown"
+    if DROP_CO and DROP_CO.search(s):
+        return "drop"
+    if TIER_B_CO and TIER_B_CO.search(s):
+        return "tierb"
+    if US_STATE.search(seg) or US_NAME.search(s) or (US_PLACE and US_PLACE.search(s)):
+        return "us"
+    low = s.lower()
+    if "remote" in low and ("us" in low or "united states" in low):
+        return "us"
+    return "unknown"
+
+
+def geo_tier(location):
+    """us | tierb | drop | unknown. Any US segment wins. Country name beats a
+    2-letter code so 'Toronto, ON, Canada' is Canada, not a US state."""
+    if not location:
+        return "unknown"
+    segs = re.split(r"\s*[/;|\n]\s*", location) or [location]
+    tiers = [_seg_geo(s) for s in segs if s.strip()]
+    if "us" in tiers:
+        return "us"
+    if "tierb" in tiers:
+        return "tierb"
+    if tiers and all(t == "drop" for t in tiers):
+        return "drop"
+    return "unknown"
+
+
+# ---------------- scoring ----------------
+
+def base_score(text):
+    return sum(w for w, r in SCORING if r.search(text))
+
+
+def desc_score(sig):
+    s = 0
+    if sig.get("hw"):
+        s += 1
+    if sig.get("grad_bad"):
+        s -= 3
+    if sig.get("grad_only"):
+        s -= 3
+    return s
+
+
+# ---------------- description enrichment (stage 2) ----------------
+
+# "2027 or later" / "and beyond" / "onwards" / "2027+" means I (2028) am eligible.
+_ELIGIBLE_TAIL = re.compile(r"or later|and beyond|onwards?|or after|or above|and later|\+", re.I)
+# Master's/PhD-only: needs degree-requirement phrasing, not just the word "master"
+# (school names like "The Master's College", "master the toolchain"). Mirrors
+# filters.mjs GRAD_ONLY.
+_GRAD_ONLY = re.compile(
+    r"\b(?:ph\.?\s?d|doctoral|master'?s?\s+(?:degree|program|student|candidate|level|of science)"
+    r"|M\.S\.|MS\s+(?:degree|program|student|or\s+PhD)|graduate\s+(?:degree|program|student))", re.I)
+# Bachelor's, however postings actually write it: BS, B.S., BS/MS, BSc, BSEE, BSCS...
+_HAS_BACH = re.compile(r"\bbachelor|\bundergrad|\bB\.?S\.?\b|\bBSc\b|\bBS[A-Z]{2,3}\b", re.I)
+
+# Hourly pay: pay-transparency laws (CA/CO/NY/WA) put an explicit $/hour band on
+# most Greenhouse/Lever/Ashby intern postings. Suffix form ("$28 - $34/hour",
+# "$28/hr", "$28 per hour", "$28 hourly") and a prefix form ("hourly rate: $28 -
+# $34") are both matched; anything else (annual salary, stipends with no "hour"
+# word) is deliberately left alone rather than guess-converted.
+_PAY_SUFFIX = re.compile(
+    r"\$\s?(\d{1,3}(?:\.\d{1,2})?)"
+    r"(?:\s*(?:-|–|—|to)\s*\$?\s?(\d{1,3}(?:\.\d{1,2})?))?"
+    r"\s*(?:/\s*(?:hr|hour)\b|per\s+hour\b|(?:an|/)\s*hour\b|hourly\b)", re.I)
+_PAY_PREFIX = re.compile(
+    r"(?:hourly\s*(?:rate|pay|wage)|pay\s*rate)\D{0,40}\$\s?(\d{1,3}(?:\.\d{1,2})?)"
+    r"(?:\s*(?:-|–|—|to)\s*\$?\s?(\d{1,3}(?:\.\d{1,2})?))?", re.I)
+
+
+def extract_pay_range(desc):
+    """(lo, hi) hourly $ from a stated range/single value, or None when no hourly
+    figure is found. Mirrors filters.mjs payRange."""
+    m = _PAY_SUFFIX.search(desc or "") or _PAY_PREFIX.search(desc or "")
+    if not m:
+        return None
+    lo = float(m.group(1))
+    hi = float(m.group(2)) if m.group(2) else lo
+    if hi < lo:
+        lo, hi = hi, lo
+    if lo < 5 or lo > 250:  # sanity bounds - reject a non-hourly $ figure that slipped through
+        return None
+    return lo, hi
+
+
+def extract_pay(desc):
+    """Midpoint hourly $, or None - ambiguous, never a drop reason on its own."""
+    r = extract_pay_range(desc)
+    return None if r is None else (r[0] + r[1]) / 2
+
+
+def extract_signals(desc, structured=None):
+    """structured: the description with its headings intact (HTML), for the
+    section-aware resume fit; the flat text serves every other signal."""
+    if not desc:
+        return {}
+    grad_bad = False
+    m = re.search(r"(graduat|class of|degree by|complet\w+)[^.]{0,40}?\b20(25|26|27)\b([^.]{0,20})", desc, re.I)
+    if m:
+        eligible = _ELIGIBLE_TAIL.search(m.group(3) or "") or re.search(r"\b2028\b", desc)
+        grad_bad = not eligible
+    return {
+        "clearance": bool(CLEARANCE and CLEARANCE.search(desc)),
+        "hw": bool(DESC_HW and DESC_HW.search(desc)),
+        "grad_bad": grad_bad,
+        "grad_only": bool(_GRAD_ONLY.search(desc)
+                          and not _HAS_BACH.search(desc)),
+        "pay": extract_pay(desc),
+        "core_fit": FIT.score(structured or desc),
+        "pay_range": extract_pay_range(desc),   # display only (the board + push body)
+    }
+
+
+_LV_JOB = re.compile(r"https?://jobs\.(eu\.)?lever\.co/([^/?#]+)/([0-9a-f-]{36})", re.I)
+_GH_JOB = re.compile(r"greenhouse\.io/(?:embed/job_app\?for=)?([^/?#&]+)/jobs/(\d+)", re.I)
+# Apply pages carry school pickers ("The Master's College"), EEO text and scripts;
+# none of it is the job, and a school name was tripping the Master's-only check.
+_HTML_NOISE = re.compile(r"<(script|style|select|noscript|template)\b.*?</\1>", re.I | re.S)
+
+
+def lever_text(j):
+    """Lever splits a posting: descriptionPlain + `lists` (requirements live here)
+    + additionalPlain. The degree line is usually in lists, so read all three."""
+    lists = " ".join(f"{x.get('text', '')} {_HTML.sub(' ', x.get('content', '') or '')}"
+                     for x in j.get("lists") or [])
+    return " ".join([j.get("descriptionPlain") or "", lists, j.get("additionalPlain") or ""])
+
+
+def lever_html(j):
+    """The same three Lever parts as HTML, list headings kept, for the section split."""
+    lists = "".join(f"<h3>{x.get('text', '')}</h3><ul>{x.get('content', '') or ''}</ul>"
+                    for x in j.get("lists") or [])
+    return "".join([j.get("description") or "", lists, j.get("additional") or ""])
+
+
+def listing_html(url):
+    """Description for an aggregator row, headings intact. When the apply link is a
+    Lever or Greenhouse posting, read that ATS's JSON; otherwise fetch the page with
+    its form widgets and scripts stripped."""
+    m = _LV_JOB.search(url)
+    if m:
+        host = "api.eu.lever.co" if m.group(1) else "api.lever.co"
+        return lever_html(get_json(f"https://{host}/v0/postings/{m.group(2)}/{m.group(3)}", timeout=15))
+    m = _GH_JOB.search(url)
+    if m:
+        d = get_json(f"https://boards-api.greenhouse.io/v1/boards/{m.group(1)}/jobs/{m.group(2)}", timeout=15)
+        return html.unescape(d.get("content", "") or "")
+    return _HTML_NOISE.sub(" ", get_text(url, timeout=12))
+
+
+def listing_description(url):
+    """Flat text of listing_html (every non-fit signal reads flat text)."""
+    return _HTML.sub(" ", listing_html(url))
+
+
+def fetch_description(job, enrich, need_fit=False):
+    """Return extracted signals for a survivor, cached by id. GH/Lever/Ashby carry
+    the description inline (job['desc']); only Workday + Simplify need a network
+    fetch, which is gated (off at seed/dry) and budget-capped. A skipped or failed
+    fetch returns {} and is NOT cached, so a later run can try again."""
+    jid = job["id"]
+    # need_fit: a generic-SWE role is judged on resume fit; entries cached before
+    # the section-aware score existed lack it, so they're fetched again.
+    if jid in enrich and not (need_fit and "core_fit" not in enrich[jid]):
+        return enrich[jid]
+    desc = job.get("desc") or ""          # inline for curated boards
+    structured = job.get("desc_html") or ""
+    inline = bool(desc)
+    budget = FIT_BUDGET if need_fit else ENRICH_BUDGET
+    if not desc and ENRICH_FETCH and budget[0] > 0:
+        try:
+            if job.get("src") == "workday":
+                budget[0] -= 1
+                d = get_json(job["detail"], timeout=20)
+                structured = (d.get("jobPostingInfo") or {}).get("jobDescription", "") or ""
+                desc = _HTML.sub(" ", structured)
+                time.sleep(0.4)           # rate-limit Workday
+            elif job.get("src") == "listings" and job.get("url"):
+                budget[0] -= 1
+                structured = listing_html(job["url"])
+                desc = _HTML.sub(" ", structured)
+        except Exception:
+            desc = ""
+    sig = extract_signals(desc, structured) if desc else {}
+    if desc or inline:                    # cache real results; never cache skipped-empties
+        enrich[jid] = sig
+    return sig
+
+
+# ---------------- sources ----------------
+# Each yields dicts with: id, company, title, location, url, category, terms,
+# posted, src, policy, and (optionally) desc / detail.
+
+def listings_feed(repo):
+    branch = "dev"
+    if ":" in repo:
+        repo, branch = repo.split(":", 1)
+    url = f"https://raw.githubusercontent.com/{repo}/{branch}/.github/scripts/listings.json"
+    for j in get_json(url, timeout=60):
+        if CFG.get("require_active", True) and not (j.get("active") and j.get("is_visible")):
+            continue
+        yield {
+            "id": f"ls:{j.get('id')}", "company": j.get("company_name", "?"),
+            "title": j.get("title", ""), "location": ", ".join(j.get("locations") or [])[:120],
+            "url": j.get("url", ""), "category": j.get("category"),
+            "terms": j.get("terms"), "posted": to_epoch(j.get("date_posted") or j.get("date_updated")),
+            "src": "listings", "policy": "tagged",
+        }
+
+
+_MD_IMG = re.compile(r"!\[[^\]]*\]\([^)]*\)")
+_MD_LINK = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+_HTML = re.compile(r"<[^>]+>")
+_URL = re.compile(r'https?://[^\s)\]"\'<>]+')
+
+
+def _strip_md(s):
+    s = _MD_LINK.sub(r"\1", _MD_IMG.sub("", s))
+    s = _HTML.sub("", s).replace("`", "")
+    return s.replace("**", "").replace("__", "").strip(" *_")  # drop bold/italic markers
+
+
+def markdown_source(src):
+    url = src["url"] if isinstance(src, dict) else src
+    for line in get_text(url, timeout=45).splitlines():
+        line = line.strip()
+        if not line.startswith("|") or "---" in line:
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 4:
+            continue
+        company, title = _strip_md(cells[0]), _strip_md(cells[1])
+        if not company or not title or company.lower() == "company":
+            continue
+        urls = _URL.findall(cells[3]) or _URL.findall(cells[-1])
+        if not urls:
+            continue
+        posted = 0
+        if len(cells) >= 5:  # date column, e.g. "Aug 04 2026"
+            try:
+                posted = datetime.strptime(_strip_md(cells[4]), "%b %d %Y").replace(tzinfo=timezone.utc).timestamp()
+            except Exception:
+                posted = 0
+        yield {
+            "id": f"md:{urls[-1]}", "company": company, "title": title,
+            "location": _strip_md(cells[2])[:120], "url": urls[-1], "category": None,
+            "terms": None, "posted": posted, "src": "markdown", "policy": "untagged",
+        }
+
+
+def atom_feed(url):
+    ns = "{http://www.w3.org/2005/Atom}"
+    for e in ET.fromstring(get_text(url, timeout=30)).findall(f"{ns}entry"):
+        title = (e.findtext(f"{ns}title") or "").strip()
+        link = e.find(f"{ns}link")
+        u = link.get("href") if link is not None else ""
+        if not title or not u:
+            continue
+        company = ""
+        if ": " in title:
+            company, title = (x.strip() for x in title.split(": ", 1))
+        yield {
+            "id": f"at:{u}", "company": company, "title": title, "location": "",
+            "url": u, "category": None, "terms": None,
+            "posted": to_epoch(e.findtext(f"{ns}updated")), "src": "atom", "policy": "untagged",
+        }
+
+
+def greenhouse(slug):
+    url = f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true&pay_transparency=true"
+    for j in get_json(url).get("jobs", []):
+        yield {
+            "id": f"gh:{slug}:{j['id']}", "company": slug, "title": j.get("title", ""),
+            "location": (j.get("location") or {}).get("name", ""), "url": j.get("absolute_url", ""),
+            "category": None, "terms": None, "posted": to_epoch(j.get("updated_at")),
+            "published": to_epoch(j.get("first_published")),
+            "display_name": j.get("company_name") or "",
+            "pay_struct": display.gh_pay(j.get("pay_input_ranges")),
+            "src": "greenhouse", "policy": "curated", "desc": _HTML.sub(" ", j.get("content", "") or ""),
+            "desc_html": html.unescape(j.get("content", "") or ""),
+        }
+
+
+def lever(slug):
+    slug, _, region = slug.partition("@")   # "slug@eu" = Lever's EU host (Cirrus Logic)
+    host = "api.eu.lever.co" if region == "eu" else "api.lever.co"
+    for j in get_json(f"https://{host}/v0/postings/{slug}?mode=json"):
+        yield {
+            "id": f"lv:{slug}:{j['id']}", "company": slug, "title": j.get("text", ""),
+            "location": (j.get("categories") or {}).get("location", ""), "url": j.get("hostedUrl", ""),
+            "category": None, "terms": None, "posted": to_epoch(j.get("createdAt")),
+            "pay_struct": display.lever_pay(j.get("salaryRange")),
+            "src": "lever", "policy": "curated", "desc": lever_text(j), "desc_html": lever_html(j),
+        }
+
+
+def ashby(slug):
+    url = f"https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"
+    for j in get_json(url).get("jobs", []):
+        yield {
+            "id": f"ab:{slug}:{j.get('id')}", "company": slug, "title": j.get("title", ""),
+            "location": j.get("location", ""), "url": j.get("jobUrl", ""), "category": None,
+            "terms": None, "posted": to_epoch(j.get("publishedAt") or j.get("updatedAt")),
+            "pay_struct": display.ashby_pay(j.get("compensation")),
+            "src": "ashby", "policy": "curated", "desc": j.get("descriptionPlain", "") or "",
+            "desc_html": j.get("descriptionHtml", "") or "",
+        }
+
+
+_WD_INTERN = re.compile(r"intern|co-?op|trainee|new coll|university|early career|student|graduate", re.I)
+
+
+def workday(entry):
+    """Discover the tenant's intern/co-op/new-grad workerSubType facet and page
+    through ALL of it. searchText='intern' was fuzzy (relevance-ranked, 900 rows
+    mostly senior) so a 100-cap silently hid roles ranked 100th+; the facet set is
+    small and complete, so nothing is missed."""
+    host, tenant, site = entry["host"], entry["tenant"], entry["site"]
+    api = f"https://{host}/wday/cxs/{tenant}/{site}/jobs"
+    name = entry.get("name", tenant)
+    try:
+        probe = post_json(api, {"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
+    except Exception:
+        return
+    ids = [v.get("id") for f in probe.get("facets", []) if f.get("facetParameter") == "workerSubType"
+           for v in f.get("values", []) if _WD_INTERN.search(v.get("descriptor", ""))]
+    facets = {"workerSubType": ids} if ids else {}
+    stext = "" if ids else "intern"   # fall back to fuzzy search only if no facet exists
+    cap = 400 if ids else 100
+    offset, total = 0, None
+    while offset < cap:
+        try:
+            d = post_json(api, {"appliedFacets": facets, "limit": 20, "offset": offset, "searchText": stext})
+        except Exception:
+            break
+        posts = d.get("jobPostings", [])
+        if total is None:
+            total = d.get("total") or 0
+        for p in posts:
+            path = p.get("externalPath", "")
+            loc = p.get("locationsText", "")
+            if re.match(r"\d+ Locations?$", loc):
+                # "/job/US-Oregon-Hillsboro/..." names the primary site; without it a
+                # multi-site role reads as unknown geography and misses Tier A.
+                seg = (path.split("/") + ["", "", ""])[2]
+                where = ("United States " + seg[3:]) if seg.startswith("US-") else seg
+                loc = f"{loc} ({where.replace('-', ' ')})"
+            yield {
+                "id": f"wd:{tenant}:{path}", "company": name, "title": p.get("title", ""),
+                "location": loc, "url": f"https://{host}/{site}{path}",
+                "category": None, "terms": None, "posted": 0, "src": "workday", "policy": "bulk",
+                "detail": f"https://{host}/wday/cxs/{tenant}/{site}{path}",
+            }
+        offset += 20
+        if not posts or offset >= total:
+            break
+
+
+_ATS_FN = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby}
+
+
+def discovered_boards(cfg):
+    """Auto-discover NEW hardware/robotics company boards from the zshah101 registry
+    and yield their jobs KEYWORD-GATED (policy='bulk'). Unlike the hand-curated instant
+    tier, these companies aren't vetted, so a title must hit include_keywords to survive
+    - noise costs only a fetch, not an alert. Slugs already curated are skipped (no
+    double-alert with the worker); defense names are dropped by name_exclude/exclude_companies."""
+    disc = cfg.get("discovery") or {}
+    if not disc.get("enabled"):
+        return
+    inc = disc.get("name_include") or []
+    exc = disc.get("name_exclude") or []
+    name_inc = re.compile("|".join(inc), re.I) if inc else None
+    name_exc = re.compile("|".join(exc), re.I) if exc else None
+    if not name_inc or not disc.get("registry_url"):
+        return
+    have = {_bare(s) for k in ("greenhouse", "lever", "ashby") for s in cfg.get(k, [])}
+    try:
+        reg = get_json(disc["registry_url"], timeout=30)
+    except Exception as e:
+        print(f"WARN discovery registry -> {repr(e)[:80]}", file=sys.stderr)
+        return
+    picked = []
+    for d in reg:
+        ats, slug, name = d.get("ats"), d.get("slug"), d.get("name", "")
+        if ats not in _ATS_FN or not slug or slug in have:
+            continue
+        if not name_inc.search(name):
+            continue
+        if (name_exc and name_exc.search(name)) or (EXCLUDE_CO and EXCLUDE_CO.search(name)):
+            continue
+        picked.append((ats, slug, name))
+    cap = disc.get("max_boards", 120)
+    if len(picked) > cap:
+        print(f"WARN discovery capped at {cap} (matched {len(picked)})", file=sys.stderr)
+        picked = picked[:cap]
+
+    # Fetch the boards concurrently: these are independent read-only GETs to different
+    # hosts, so serial fetching (the old ~0.15s-spaced loop) was the run's biggest time
+    # sink. Materialize each board in a worker thread; ex.map preserves plan order so the
+    # downstream classify/enrich/dedup pass stays deterministic. Network only - no shared
+    # mutable state is touched in here (enrichment/seen run single-threaded in scan()).
+    def fetch_board(item):
+        ats, slug, name = item
+        out = []
+        try:
+            for job in _ATS_FN[ats](slug):
+                job["company"] = name     # real name (not slug) for the notification
+                job["policy"] = "bulk"    # discovered != vetted -> keyword-gated, still Tier-A-able
+                out.append(job)
+        except Exception as e:
+            print(f"WARN discovery {ats}:{slug} -> {repr(e)[:60]}", file=sys.stderr)
+        return out
+
+    workers = max(1, min(disc.get("fetch_workers", 8), len(picked)))
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for board_jobs in ex.map(fetch_board, picked):
+            yield from board_jobs
+
+
+def build_plan():
+    # ORDER MATTERS: canon_key() dedup is first-writer-wins (scan() skips a job
+    # whose canon_key is already in `seen`, regardless of source). A physical role
+    # often surfaces through MULTIPLE sources - e.g. a company on both the Simplify
+    # listings feed (retitled, no score boost, policy=tagged) AND auto-discovery's
+    # direct ATS pull (original title, correctly scored, policy=bulk). Direct-ATS
+    # sources carry the real title/score, so they must run BEFORE the
+    # retitled/aggregated ones or the weaker copy wins the race and the stronger
+    # one gets silently deduped away. Curated (hand-picked, when not SKIP_ATS) is
+    # the most trusted; discovery/Workday hit the ATS directly; listings/markdown/
+    # atom are aggregated copies, weakest first title fidelity, so they run last.
+    plan = []
+    if not os.environ.get("SKIP_ATS"):  # curated boards; the worker owns these when SKIP_ATS=1
+        plan += [(greenhouse, s) for s in CFG.get("greenhouse", [])]
+        plan += [(lever, s) for s in CFG.get("lever", [])]
+        plan += [(ashby, s) for s in CFG.get("ashby", [])]
+    if (CFG.get("discovery") or {}).get("enabled"):  # keyword-gated auto-discovery (always on)
+        plan += [(discovered_boards, CFG)]
+    plan += [(workday, w) for w in CFG.get("workday", [])]
+    plan += [(listings_feed, r) for r in CFG.get("listings_repos", [])]
+    plan += [(markdown_source, s) for s in CFG.get("markdown_sources", [])]
+    plan += [(atom_feed, s) for s in CFG.get("atom_feeds", [])]
+    return plan
+
+
+def label(arg):
+    return arg if isinstance(arg, str) else (arg.get("name") or arg.get("tenant") or arg.get("url", "?"))
+
+
+# ---------------- classification pipeline ----------------
+
+def classify(job, enrich, trace=None):
+    """Returns ('A'|'B', score, None) or ('drop', rule, None). Ambiguity -> Tier B."""
+    def note(msg):
+        if trace is not None:
+            trace.append(msg)
+
+    policy, title, company = job["policy"], job.get("title", ""), job.get("company", "")
+    blob = f"{title} {company}"
+    note(f"source={job['src']} policy={policy} title={title!r} company={company!r}")
+
+    # --- hard filters (only these may drop; each needs positive evidence) ---
+    if policy != "tagged" and ATS_REQUIRE and not ATS_REQUIRE.search(title):
+        reason = "new-grad" if NEWGRAD.search(title) else "not-intern"
+        note(f"DROP {reason}"); return "drop", reason
+    if not INTERN_WORD.search(title) and NEWGRAD_ONLY.search(title):
+        note("DROP new-grad (full-time grad role, not an internship)"); return "drop", "new-grad"
+    note("pass intern-gate")
+    if EXCLUDE and EXCLUDE.search(blob):
+        note("DROP seniority/role"); return "drop", "seniority"
+    if EXCLUDE_CO and company and EXCLUDE_CO.search(company):
+        note("DROP excluded company"); return "drop", "excluded"
+    if season_dropped(job.get("terms"), title):
+        note(f"DROP season terms={job.get('terms')}"); return "drop", "season"
+    note("pass season")
+    geo = geo_tier(job.get("location"))
+    if geo == "drop":
+        note(f"DROP geo loc={job.get('location')!r}"); return "drop", "geo"
+    note(f"geo={geo}")
+
+    # --- relevance gate (policy-specific) ---
+    need_fit = False   # generic SWE title anywhere: on-target only if the description fits the resume
+    if policy == "tagged":
+        cat = (job.get("category") or "").lower()
+        if any(c in cat for c in CATS):
+            note(f"relevance: hardware category ({cat})")
+        elif any(c in cat for c in SOFT_CATS) and TAGGED_SUB and TAGGED_SUB.search(title):
+            note(f"relevance: soft category ({cat}) + sub-regex")
+        elif any(c in cat for c in SOFT_CATS) and fit_candidate(title):
+            need_fit = True
+            note(f"relevance: soft category ({cat}) + software title -> judged on resume fit")
+        else:
+            note(f"DROP irrelevant (category={cat})"); return "drop", "irrelevant"
+    elif policy in ("bulk", "untagged"):
+        if INCLUDE and INCLUDE.search(title):
+            note("relevance: include_keywords")
+        elif fit_candidate(title):
+            need_fit = True
+            note("relevance: software title -> judged on resume fit")
+        else:
+            note("DROP irrelevant (no include_keywords)"); return "drop", "irrelevant"
+    else:
+        note("relevance: curated (no keyword gate)")
+
+    # --- company tier gate: off-list companies must prove a strong resume fit ---
+    offlist = bool(TARGET_CO) and policy != "curated" and not is_target(company)
+    if offlist:
+        if not offlist_candidate(title):
+            note("DROP off-list company, non-engineering title"); return "drop", "off-list"
+        need_fit = True
+        note("off-list company -> judged on resume fit, capped at Tier B")
+
+    if policy == "untagged" and MAX_AGE and job.get("posted") and time.time() - job["posted"] > MAX_AGE:
+        note("DROP stale"); return "drop", "stale"
+
+    # --- stage 2: description signals ---
+    sig = fetch_description(job, enrich, need_fit)
+    fit = sig.get("core_fit")
+    if need_fit:
+        # No description yet (seed run / budget spent) is not a verdict: drop for now,
+        # NOT marked seen, so a later run fetches it and judges it then.
+        edge = is_edge(company)
+        bar = FIT.min_edge if edge else FIT.min
+        if fit is None:
+            note("DROP fit-pending (no description yet)"); return "drop", "fit-pending"
+        if not FIT.ok(fit, edge=edge):
+            note(f"DROP weak resume fit ({fit} < {bar}{', edge bar' if edge else ''})")
+            return "drop", "weak-fit"
+        note(f"relevance: resume fit {fit} >= {bar}{' (edge bar)' if edge else ''}")
+    if sig.get("clearance"):
+        note("DROP defense (clearance in description)"); return "drop", "defense-desc"
+    # Gate on the TOP of a stated range: "$25-40/hr" can pay $40, so its midpoint
+    # must not demote it. Cached entries without pay_range fall back to the midpoint.
+    rng = sig.get("pay_range")
+    pay = rng[1] if rng else sig.get("pay")
+    pay_floor = CFG.get("pay_floor_hourly") or 0
+    if pay is not None and pay_floor and pay < pay_floor:
+        note(f"DROP low-pay (${pay:.0f}/hr < ${pay_floor:.0f}/hr floor)"); return "drop", "low-pay"
+
+    # --- score & tier ---
+    bs, ds = base_score(title), desc_score(sig)
+    es = (CFG.get("edge_company_score") or 0) if is_edge(company) else 0
+    fs = (CFG.get("resume_fit_score") or 0) if FIT.ok(fit) else 0
+    ts = (CFG.get("target_score") or 0) if (policy == "curated" or is_target(company)) else 0
+    score = bs + ds + es + fs + ts
+    note(f"score={score} (title {bs}, desc {ds}, edge company {es}, resume fit {fs}, target {ts})")
+
+    pay_preferred = CFG.get("pay_preferred_hourly") or 0
+    pay_midband_bar = CFG.get("pay_midband_min_score", 0)
+
+    def pay_ok(sc):
+        """Below-floor pay was already dropped above. Between floor and preferred,
+        only a strong hardware/robotics fit (not just barely-qualifying) still
+        earns Tier A; unknown/no pay or pay >= preferred is never gated."""
+        if pay is None or not pay_preferred or pay >= pay_preferred:
+            return True
+        return sc >= pay_midband_bar
+
+    if policy == "curated":
+        # hand-picked company: a vague US intern title is instant-worthy. But a hard
+        # eligibility mismatch from the description still demotes (I graduate 2028).
+        if geo != "us":
+            note("TIER B (curated, non-US)"); return "B", score
+        if sig.get("grad_bad") or sig.get("grad_only"):
+            note("DROP curated, grad/degree mismatch"); return "drop", "grad"
+        if not curated_relevant(title, company, job.get("desc_html") or job.get("desc") or ""):
+            note("DROP curated, off-target function"); return "drop", "irrelevant"
+        if not pay_ok(score):
+            note(f"TIER B (curated, pay ${pay:.0f}/hr mid-band, fit score {score} < {pay_midband_bar})")
+            return "B", score
+        note("TIER A (curated, hardware-relevant)"); return "A", max(score, 3)
+    if policy == "tagged":
+        # SimplifyJobs carries explicit season terms -> trust them exactly.
+        a_ok = season_a_eligible(job.get("terms"))
+    else:
+        # bulk/untagged (Workday, markdown, atom) have no structured terms, so a
+        # strict term match would cap them at Tier B forever. A disqualifying season
+        # was already dropped above; promote unless the description shows a hard
+        # eligibility mismatch (I graduate 2028).
+        a_ok = not (sig.get("grad_bad") or sig.get("grad_only"))
+    if offlist:
+        note("TIER B (off-list company, strong resume fit)"); return "B", score
+    if score >= 3 and geo == "us" and a_ok and pay_ok(score):
+        note("TIER A"); return "A", score
+    note(f"TIER B (score>=3:{score>=3} us:{geo=='us'} season_a:{a_ok} pay_ok:{pay_ok(score)})")
+    return "B", score
+
+
+# ---------------- state ----------------
+
+def _load(path, default):
+    if path.exists():
+        try:
+            return json.loads(path.read_text(encoding="utf-8-sig"))
+        except Exception:
+            return default
+    return default
+
+
+LOGIC_VERSION = "bc-1"  # Brahmjot's fork: target-company gate  # bump when filter/scoring CODE changes -> forces a silent reseed
+# v2.6: added zapplyjobs low-latency feeds + Tier-B prompt-push.
+# v2.7: added registry-based auto-discovery of hardware/robotics boards; reseed so the
+# ~49 discovered boards' backlog seeds silently instead of flooding on first scan.
+# v2.8: cross-feed canon_key + worker_owned dedup (kills repeat alerts); reseed so the
+# canon-keys backfill into seen silently instead of re-alerting already-delivered roles.
+# v2.9: pay gate (drop below pay_floor_hourly; mid-band pay needs a strong-fit score to
+# reach Tier A) + build_plan() reordered so direct-ATS sources (curated/discovery/Workday)
+# claim a role's canon_key before the weaker retitled aggregator copies (Simplify listings/
+# markdown/atom) can - fixes roles like Bedrock Robotics landing as a low-score Tier-B dupe
+# of a correctly-scored Tier-A role. Reseed so the new pay rule doesn't retroactively flood.
+# v2.10: (1) dropped zapplyjobs markdown_sources - Apply links resolve through a
+# zapply.jobs/l/d/... redirector (a job-directory site), not a direct ATS link, and its
+# two overlapping feeds' un-stripped "?s=" tracking param was defeating canon_key dedup
+# (same physical role, two different canon_keys -> double ntfy push). (2) added
+# content_key() as dedup shape (C) - catches the same role reaching vigil via a scraped
+# mirror (IEEE markdown's LinkedIn/Indeed links) AND a direct-ATS source, which canon_key's
+# URL matching can't unify since the domains share nothing. (3) removed "co-?op" from
+# ats_require - not a fit for a full-time enrolled semester student. (4) widened
+# CURATED_OFFTARGET (watch.py + filters.mjs) to catch product/program management, TPM,
+# supply chain, HR, legal, comms, customer success/support, technical writing - these were
+# reaching Tier A at curated companies undetected (the old list only caught software/IT/
+# ML/biomedical/finance/business, not the rest of the non-engineering functions a large
+# curated company like Neuralink/SpaceX/Samsara posts under). Reseed for all of the above.
+# v2.11: (1) moved the co-op exclusion from ats_require to exclude_keywords (hard drop,
+# ALL policies) - "tagged" policy (Simplify/vanshb03) never even checks ats_require, so
+# a co-op with Simplify category=Hardware was STILL sailing through after v2.10; traced a
+# real pre-fix Trane Technologies "Mechanical Engineering Co-op" digest dupe back to the
+# (now-removed) zapply "?s=" bug, but this tagged-policy gap was a separate live issue.
+# (2) content_key() title normalization now strips boilerplate (parentheticals, BS/MS,
+# "Multiple Teams", season/year) before comparing - traced a live post-v2.10 duplicate
+# (Google "Silicon Engineering Intern" pushed once instant + once in a Tier B digest) to
+# Google listing the same req twice with a qualifier-suffix title difference that the old
+# exact-match content_key missed. Reseed for both.
+# v2.12: generic software/ML intern titles are on-target at edge_companies (defense
+# neoprimes / new-space: relevant on every source, +edge_company_score) and at any
+# company whose description is a strong resume fit (config resume_fit >= resume_fit_min;
+# Simplify/Workday descriptions fetched under fit_fetch_budget). A strong-fit description
+# also scores +resume_fit_score on any role.
+# v2.13: resume fit scores only a posting's duties + qualifications (fit.py drops the
+# company blurb and benefits tail), a generic title naming an off-target specialty
+# (Android/Frontend/Infrastructure...) is never rescued, and edge_companies get a lower
+# fit bar instead of bypassing the check. Traced to an ACS "Android Developer Intern"
+# alert: the edge bypass let it through, and its About-us text alone scored 13.
+# Traced to Shield AI's single "Software Engineer Intern" req (spans firmware/embedded,
+# flight SW, apps) landing board-only as an off-target function.
+
+def config_hash():
+    keys = ["include_keywords", "exclude_keywords", "exclude_companies", "include_categories",
+            "soft_categories", "tagged_subregex", "season_drop_terms", "season_a_terms",
+            "season_title_drop", "scoring", "tier_b_countries", "drop_countries",
+            "desc_hw_keywords", "desc_clearance", "ats_require", "max_age_days",
+            "pay_floor_hourly", "pay_preferred_hourly", "pay_midband_min_score",
+            "edge_companies", "edge_company_score", "resume_fit", "resume_fit_min",
+            "resume_fit_score", "resume_fit_generic_cap", "resume_fit_min_edge",
+            "off_specialty_titles", "on_specialty_titles", "target_companies", "target_score"]
+    blob = json.dumps({"_v": LOGIC_VERSION, **{k: CFG.get(k) for k in keys}}, sort_keys=True)
+    return sha256(blob.encode()).hexdigest()[:16]
+
+
+# ---------------- notify ----------------
+
+def ntfy(title, body, click=None, priority="high"):
+    topic = CFG.get("ntfy_topic", "")
+    if not topic or topic.startswith("CHANGE-ME"):
+        return
+    headers = {**UA, "Title": title[:140].encode("ascii", "ignore").decode(),
+               "Priority": priority}
+    if CFG.get("ntfy_token"):
+        headers["Authorization"] = f"Bearer {CFG['ntfy_token']}"
+    if click:
+        headers["Click"] = click
+        headers["Actions"] = f"view, Apply, {click}"
+    req = urllib.request.Request(f"https://ntfy.sh/{topic}", data=body.encode("utf-8"),
+                                 headers=headers, method="POST")
+    # The role is already marked seen, so a dropped push is a lost alert. Retry
+    # transient failures (runner network blips, 429, 5xx); other 4xx won't heal.
+    for delay in NTFY_RETRY_DELAYS:
+        try:
+            urllib.request.urlopen(req, timeout=20).read()
+            return
+        except urllib.error.HTTPError as e:
+            if e.code < 500 and e.code != 429:
+                raise
+            last = e
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            last = e
+        time.sleep(delay)
+    raise last
+
+
+def fmt_season(terms):
+    """Prefer the term the role actually qualified on (a season_a term), so a role
+    tagged [Fall 2026, Summer 2027] labels as Summer 2027, not its first tag."""
+    if not terms:
+        return ""
+    tlist = terms if isinstance(terms, list) else [terms]
+    return next((t for t in tlist if t in A_SEASONS), tlist[0])
+
+
+_DISPLAY_NAMES = {k.lower(): v for k, v in (CFG.get("display_names") or {}).items()}
+
+
+def display_company(slug):
+    """'gecko-robotics' -> 'Gecko Robotics'; config display_names fixes the rest."""
+    if not slug:
+        return slug
+    named = _DISPLAY_NAMES.get(slug.lower())
+    if named:
+        return named
+    return " ".join(w[:1].upper() + w[1:] for w in re.split(r"[-_]+", slug) if w)
+
+
+def role_pay(job, sig):
+    """Display pay: the ATS's structured range first, then a range parsed from the
+    description, then the cached midpoint (enrichment entries written before
+    pay_range existed). '' when nothing is stated."""
+    rng = job.get("pay_struct") or sig.get("pay_range")
+    if not rng and sig.get("pay"):
+        rng = (sig["pay"], sig["pay"])
+    return display.fmt_pay(tuple(rng) if rng else None)
+
+
+def push_role(rec, priority="high"):
+    """One notification: 'Company - Title' header, then location / pay + season /
+    absolute posted + found stamps (see display.push_body)."""
+    body = display.push_body(rec.get("location"), rec.get("pay"), rec.get("season"),
+                             rec.get("published") or rec.get("posted"), rec.get("found"))
+    ntfy(f"{rec['company']} - {rec['title']}", body, click=rec["url"], priority=priority)
+
+
+# ---------------- roles board ----------------
+# Every surviving role is kept here (pushed or not) so the board can show it.
+BOARD_KEEP_DAYS = 60
+BOARD_MAX = 3000
+
+
+def board_merge(board, recs):
+    """New list: recs (newest) ahead of the existing board, deduped by id, aged out
+    past BOARD_KEEP_DAYS, capped at BOARD_MAX."""
+    cutoff = time.time() - BOARD_KEEP_DAYS * 86400
+    out, have = [], set()
+    for r in list(recs) + list(board):
+        if r["id"] in have:
+            continue
+        if r.get("found") and r["found"] < cutoff:
+            continue
+        have.add(r["id"])
+        out.append(r)
+    return out[:BOARD_MAX]
+
+
+# ---------------- run ----------------
+
+def role_record(job, decision, score, enrich):
+    """What the push and the board need. found/delivery are stamped by the caller."""
+    company = job["company"]
+    if job.get("policy") == "curated":   # curated adapters carry the slug, not a name
+        company = (job.get("display_name") or "").strip() or display_company(company)
+    return {"id": job["id"], "company": company, "title": job["title"],
+            "location": job["location"], "url": job["url"], "score": score,
+            "tier": decision, "posted": job.get("posted", 0),
+            "published": job.get("published", 0), "terms": job.get("terms"),
+            "season": fmt_season(job.get("terms")),
+            "pay": role_pay(job, enrich.get(job["id"], {})),
+            "bigco": is_bigco(company) or is_bigco(job["company"]),
+            "geo": geo_tier(job["location"])}
+
+
+def scan(seen, enrich):
+    """Full pass. Returns (tier_a, tier_b, stats). Adds matched ids to seen."""
+    tier_a, tier_b = [], []
+    stats = defaultdict(lambda: {"scanned": 0, "A": 0, "B": 0, "drop": Counter()})
+    skip_ats = bool(os.environ.get("SKIP_ATS"))  # worker owns the curated tier
+    for fn, arg in build_plan():
+        name = f"{fn.__name__}:{label(arg)}"
+        # Workday is broken out per tenant so thin tenants are visible in the table.
+        src_stat = stats[fn.__name__ if fn.__name__ != "workday" else f"workday:{label(arg)}"]
+        try:
+            for job in fn(arg):
+                src_stat["scanned"] += 1
+                url = job.get("url")
+                if not url or job["id"] in seen:
+                    continue
+                ck = canon_key(url)
+                if ck and ck in seen:      # FIX A: same role via a different feed/URL
+                    continue
+                ck2 = content_key(job.get("company"), job.get("title"), job.get("location"))
+                if ck2 and ck2 in seen:    # FIX C: same role via a cross-domain mirror (e.g. LinkedIn)
+                    continue
+                if skip_ats and worker_owned(job):  # FIX B: worker already delivers this
+                    src_stat["drop"]["curated_worker"] += 1
+                    continue
+                decision, val = classify(job, enrich)
+                if decision == "drop":
+                    src_stat["drop"][val] += 1
+                    continue
+                seen.add(job["id"])
+                if ck:
+                    seen.add(ck)           # so the same role via another feed won't re-alert
+                if ck2:
+                    seen.add(ck2)          # so a cross-domain mirror of this role won't re-alert
+                rec = role_record(job, decision, val, enrich)
+                if decision == "A":
+                    src_stat["A"] += 1; tier_a.append(rec)
+                else:
+                    src_stat["B"] += 1; tier_b.append(rec)
+        except Exception as e:
+            print(f"WARN {name} -> {repr(e)[:90]}", file=sys.stderr)
+        time.sleep(0.25)
+    tier_a.sort(key=lambda r: (r["bigco"], -r["score"]))   # startups first, then fit
+    return tier_a, tier_b, stats
+
+
+def print_table(stats):
+    print(f"{'source':14} {'scanned':>8} {'TierA':>6} {'TierB':>6}  drops")
+    tot = {"scanned": 0, "A": 0, "B": 0}
+    dtot = Counter()
+    for src, s in sorted(stats.items()):
+        d = ", ".join(f"{k}:{v}" for k, v in s["drop"].most_common())
+        print(f"{src:14} {s['scanned']:>8} {s['A']:>6} {s['B']:>6}  {d}")
+        tot["scanned"] += s["scanned"]; tot["A"] += s["A"]; tot["B"] += s["B"]
+        dtot.update(s["drop"])
+    print("-" * 60)
+    print(f"{'TOTAL':14} {tot['scanned']:>8} {tot['A']:>6} {tot['B']:>6}  "
+          + ", ".join(f"{k}:{v}" for k, v in dtot.most_common()))
+
+
+def do_explain(job_id):
+    enrich = _load(ENRICH_PATH, {})
+    for fn, arg in build_plan():
+        try:
+            for job in fn(arg):
+                if job["id"] == job_id:
+                    trace = []
+                    decision, val = classify(job, enrich, trace)
+                    print(f"job {job_id}:")
+                    for t in trace:
+                        print("  ", t)
+                    print(f"  => {decision} ({val})")
+                    return
+        except Exception as e:
+            print(f"WARN {fn.__name__}:{label(arg)} -> {repr(e)[:80]}", file=sys.stderr)
+    print(f"job id {job_id} not found in any current source")
+
+
+def test_alert():
+    """Exercise the real delivery path in the real format. The title carries
+    [TEST] so it can't be mistaken for a real role."""
+    rec = {"company": "Bedrock Robotics", "title": "[TEST] Embedded Systems Intern",
+           "location": "San Francisco, CA", "url": "https://github.com/AbhigyaGoel/vigil",
+           "pay": display.fmt_pay((40, 48)), "season": "Summer 2027",
+           "published": time.time() - 2 * 86400, "found": time.time()}
+    push_role(rec, "high")
+    print("sent test push ->", rec["title"])
+
+
+_BARE_PLACE = re.compile(r"^\s*[A-Za-z .]+\s*$")
+
+
+def scraped_vague(r):
+    """A LinkedIn-scraped row (IEEE markdown) whose whole location is one place
+    name ("Massachusetts") - the shape of staffing-agency / look-alike listings
+    (Orvanta, Vexra Engineering, ...). Real companies on LinkedIn list a city."""
+    loc = r.get("location") or ""
+    return ("linkedin.com/jobs" in (r.get("url") or "") and bool(_BARE_PLACE.match(loc))
+            and bool(US_PLACE and US_PLACE.fullmatch(loc.strip())))
+
+
+def no_location(r):
+    """Location genuinely missing (blank / bare 'Remote') - the ambiguity Tier B
+    prompt-push exists for. An unrecognized city ('Brno', 'Shanghai') is NOT this."""
+    return bool(re.fullmatch(r"\s*(?:remote)?\s*", r.get("location") or "", re.I))
+
+
+def deliver(tier_a, tier_b, now):
+    """Decide what reaches the phone. Every relevant role is pushed; company size
+    only sets how loud.
+      high    : Tier A at a startup / non-big company
+      default : Tier A at a big company (still alerts - apply-worthy, just ranked lower)
+      default : Tier B that scored target-grade but missed Tier A only on ambiguous
+                geo/season or mid-band pay (e.g. a scraped row with no location)
+      board   : the rest of Tier B (weak fit) - recorded, not pushed
+    Returns the records stamped with found + delivery, ready for the board."""
+    cap = CFG.get("max_alerts_per_run", 25)
+    prompt_bar = CFG.get("tierb_prompt_score", 3)
+    out, sent = [], 0
+    for r in tier_a + sorted(tier_b, key=lambda x: (x["bigco"], -x.get("score", 0))):
+        r = {**r, "found": now}
+        if scraped_vague(r) or push_stale(r, now):
+            r["delivery"] = "board"
+        elif r["tier"] == "A":
+            r["delivery"] = "default" if r["bigco"] else "high"
+        elif r.get("score", 0) >= prompt_bar and (r.get("geo") == "us" or no_location(r)):
+            r["delivery"] = "default"
+        else:
+            r["delivery"] = "board"
+        if r["delivery"] != "board":
+            if sent >= cap:
+                print(f"WARN push cap {cap} hit; {r['company']} | {r['title']} board-only",
+                      file=sys.stderr)
+                r["delivery"] = "board"
+            else:
+                try:
+                    push_role(r, r["delivery"])
+                    sent += 1
+                    print(f"PING-{r['delivery']}", r["company"], "|", r["title"])
+                except Exception as e:
+                    print("WARN push", repr(e)[:70], file=sys.stderr)
+        out.append(r)
+    return out
+
+
+def backfill_board():
+    """Seed roles.json with every currently-open match (found=0: 'before tracking').
+    Run locally once without SKIP_ATS so the curated boards are included too."""
+    global ENRICH_FETCH
+    ENRICH_FETCH = False
+    tier_a, tier_b, stats = scan(set(), _load(ENRICH_PATH, {}))
+    recs = [{**r, "found": 0, "delivery": "board"} for r in tier_a + tier_b]
+    board = board_merge(_load(ROLES_PATH, []), recs)
+    ROLES_PATH.write_text(json.dumps(board, indent=0), encoding="utf-8")
+    print_table(stats)
+    print(f"board: {len(board)} roles ({sum(not r['bigco'] for r in board)} non-big-co)")
+
+
+def main():
+    global ENRICH_FETCH
+    if "--test-alert" in sys.argv:
+        return test_alert()
+    if "--backfill-board" in sys.argv:
+        return backfill_board()
+    if "--explain" in sys.argv:
+        i = sys.argv.index("--explain")
+        return do_explain(sys.argv[i + 1])
+
+    if "--dry" in sys.argv:
+        ENRICH_FETCH = False  # title-only for speed; no employer-site fetching
+        _, _, stats = scan(set(), _load(ENRICH_PATH, {}))
+        print_table(stats)
+        return
+
+    # persistent state
+    state = _load(STATE_PATH, {})
+    enrich = _load(ENRICH_PATH, {})
+    cur_hash = config_hash()
+    reseed = state.get("config_hash") != cur_hash
+    seen = set() if reseed else set(_load(SEEN_PATH, []))
+    first_run = reseed or not seen
+    ENRICH_FETCH = not first_run  # skip the expensive description fetch on the silent seed
+    ENRICH_BUDGET[0] = CFG.get("enrich_budget", 60)
+    FIT_BUDGET[0] = CFG.get("fit_fetch_budget", 40)
+
+    tier_a, tier_b, stats = scan(seen, enrich)
+
+    now = datetime.now(timezone.utc)
+    # yield PERSISTS across reseeds (kept in state for --dry style debugging; never pushed)
+    yld = state.get("yield", {})
+    state.setdefault("yield_since", now.strftime("%Y-%m-%d"))
+    for k, s in stats.items():
+        y = yld.setdefault(k, {"scanned": 0, "A": 0, "B": 0})
+        y["scanned"] += s["scanned"]; y["A"] += s["A"]; y["B"] += s["B"]
+    state["yield"] = yld
+
+    board = _load(ROLES_PATH, [])
+    if first_run:
+        # Seed silently: nothing pushes, but the roles still belong on the board.
+        recs = [{**r, "found": 0, "delivery": "board"} for r in tier_a + tier_b]
+        print(f"SEEDED{' (config changed)' if reseed else ''}. "
+              f"tracking {len(seen)}, {len(tier_a)} A + {len(tier_b)} B suppressed.")
+    else:
+        recs = deliver(tier_a, tier_b, time.time())
+        print(f"{len(tier_a)} Tier A + {len(tier_b)} Tier B new; "
+              f"{sum(r['delivery'] != 'board' for r in recs)} pushed, rest on the board.")
+    board = board_merge(board, recs)
+
+    # season-rate anomaly WARN: fire only on a sharp jump vs the trailing average,
+    # so a steady 98% August doesn't cry wolf but an upstream tagging shift does.
+    dtot = Counter()
+    for s in stats.values():
+        dtot.update(s["drop"])
+    season_drops = dtot.get("season", 0)
+    post_cat = sum(s["A"] + s["B"] for s in stats.values()) + season_drops
+    if not first_run and post_cat:
+        rate = season_drops / post_cat
+        hist = state.get("season_rates", [])
+        if len(hist) >= 12:
+            avg = sum(hist) / len(hist)
+            if rate > avg + 0.05:
+                print(f"WARN season-drop rate {rate:.0%} vs {avg:.0%} trailing-avg "
+                      f"(+{(rate - avg) * 100:.0f}pt) - upstream tagging shift?", file=sys.stderr)
+        state["season_rates"] = (hist + [round(rate, 4)])[-48:]
+
+    # persist
+    state["config_hash"] = cur_hash
+    for stale in ("last_digest", "last_weekly", "last_daily"):   # digests are gone
+        state.pop(stale, None)
+    SEEN_PATH.write_text(json.dumps(sorted(seen), indent=0), encoding="utf-8")
+    STATE_PATH.write_text(json.dumps(state, indent=0), encoding="utf-8")
+    ENRICH_PATH.write_text(json.dumps(enrich, indent=0), encoding="utf-8")
+    ROLES_PATH.write_text(json.dumps(board, indent=0), encoding="utf-8")
+    print_table(stats)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,9 @@
+config.local.json
+watch.log
+watch.log.1
+__pycache__/
+*.pyc
+cloudflare/.wrangler/
+.claude/
+rejects.json
+pending_tierb.json

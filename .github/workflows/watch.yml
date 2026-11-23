@@ -1,0 +1,58 @@
+# Runs notify on GitHub's servers, no laptop needed. Cron floor is 5 min;
+# real-world latency is often 5-20 min under scheduler load. The private ntfy
+# topic lives in the NTFY_TOPIC repo secret, never in the code.
+name: notify
+
+on:
+  schedule:
+    # Every 5 min (GitHub's floor), offset from :00 to dodge scheduler congestion.
+    - cron: "1-56/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: notify
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    # A run takes ~1-2 min. Without a cap a hung source fetch holds the
+    # concurrency slot for GitHub's 6h default and every dispatch queues behind it.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Run watcher
+        run: python watch.py --once
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          # Set repo variable SKIP_ATS=1 once the Cloudflare worker owns the
+          # instant tier, so the same role doesn't alert from both systems.
+          SKIP_ATS: ${{ vars.SKIP_ATS }}
+
+      # Pushes already went out, so losing this commit means the next run re-sends
+      # them. GitHub's git backend intermittently 500s ("fatal error in
+      # commit_refs"); retry with backoff, rebasing onto whatever landed meanwhile.
+      # In a rebase, -X theirs keeps THIS run's version of a conflicting file: only
+      # Actions writes the state files and runs are serialized, so this run's copy
+      # is the newest.
+      - name: Commit state (dedupe memory + roles board)
+        run: |
+          git config user.name "notify"
+          git config user.email "actions@github.com"
+          git add seen.json enrichment.json state.json roles.json
+          git diff --staged --quiet && exit 0
+          git commit -q -m "state: $(date -u +%FT%TZ)"
+          for attempt in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs && git push -q && exit 0
+            echo "push attempt $attempt failed; retrying"
+            sleep $((attempt * 10))
+          done
+          exit 1
