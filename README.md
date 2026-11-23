@@ -1,8 +1,6 @@
 # notify
 
-Phone push within ~5 minutes of a Summer 2027 SWE / ML / AI-infra / quant internship
-opening. Forked from [AbhigyaGoel/vigil](https://github.com/AbhigyaGoel/vigil) (MIT) and
-retuned from hardware to my resume. Runs free on GitHub Actions; no laptop, no paid APIs.
+jobs
 
 ## What pushes
 
