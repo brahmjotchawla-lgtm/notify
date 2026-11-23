@@ -1,1 +1,1895 @@
-{}
+{
+"gh:scaleai:4735665005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 12,
+"pay_range": null
+},
+"gh:scaleai:4730845005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 11,
+"pay_range": null
+},
+"gh:scaleai:4730846005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 11,
+"pay_range": null
+},
+"gh:databricks:6866538002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:databricks:8787352002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:databricks:6865687002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:databricks:8133710002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:databricks:6866534002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:databricks:7640764002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:databricks:6866531002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:databricks:8847738002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:figma:6178851004": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:figma:6180005004": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:figma:6152695004": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:figma:6143238004": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:robinhood:8197614": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": 26.825,
+"core_fit": 2,
+"pay_range": [
+24.65,
+29.0
+]
+},
+"gh:coinbase:8175363": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175366": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175369": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175429": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175510": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:coinbase:8175432": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:coinbase:8175441": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"gh:coinbase:8175447": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175556": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:coinbase:8175339": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8175507": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8168315": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8376084": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:coinbase:8221241": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:airbnb:8376005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:airbnb:8406333": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:airbnb:8360478": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:andurilindustries:5300647007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:andurilindustries:5255866007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5148101007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:andurilindustries:5302147007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:andurilindustries:5268689007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"gh:andurilindustries:5265158007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5239083007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:andurilindustries:5257709007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:andurilindustries:5268736007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5278662007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:andurilindustries:5268752007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:andurilindustries:5274037007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:andurilindustries:5291546007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:andurilindustries:5271285007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5257674007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5257682007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:andurilindustries:5255902007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:andurilindustries:5148079007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:andurilindustries:5257690007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:jumptrading:8027938": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:8052338": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"gh:jumptrading:8052281": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"gh:jumptrading:8052351": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"gh:jumptrading:7362318": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:8027860": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:jumptrading:8002998": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:jumptrading:8027923": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:8027900": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:jumptrading:8010307": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:jumptrading:7982648": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:jumptrading:8050772": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:jumptrading:8027922": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:jumptrading:7848371": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:jumptrading:8007788": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:8000323": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:8003019": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:jumptrading:7974943": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:akunacapital:8036614": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:akunacapital:8018853": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:schonfeld:8171692": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:schonfeld:8324611": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:schonfeld:8171699": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:drweng:7957756": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"gh:drweng:7818540": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"gh:drweng:7957243": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:drweng:7668776": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:drweng:8020364": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:drweng:7942281": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:chicagotradingcampus:4716930005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:chicagotradingcampus:4716932005": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"gh:spacex:8621740002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 28.0,
+"core_fit": 0,
+"pay_range": [
+28.0,
+28.0
+]
+},
+"gh:spacex:8621753002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:spacex:8621763002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 30.0,
+"core_fit": 2,
+"pay_range": [
+30.0,
+30.0
+]
+},
+"gh:spacex:8621757002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 30.0,
+"core_fit": 4,
+"pay_range": [
+30.0,
+30.0
+]
+},
+"gh:pdtpartners:8077685": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:pdtpartners:8083292": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:aquaticcapitalmanagement:8489186002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:aquaticcapitalmanagement:8489233002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:virtu:8657500002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:virtu:8657286002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:virtu:8547254002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:virtu:8624410002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:virtu:8551566002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:virtu:8746197002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:virtu:8745933002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:fiveringsllc:5139668008": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:fiveringsllc:5349707008": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:radixuniversity:8500265002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"gh:waymo:8350832": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:waymo:8214729": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:lyft:8802222002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 43.0,
+"core_fit": 3,
+"pay_range": [
+43.0,
+43.0
+]
+},
+"gh:lyft:8817900002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 46.0,
+"core_fit": 0,
+"pay_range": [
+46.0,
+46.0
+]
+},
+"gh:lyft:8797376002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 45.0,
+"core_fit": 0,
+"pay_range": [
+45.0,
+45.0
+]
+},
+"gh:lyft:8796124002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": 60.0,
+"core_fit": 3,
+"pay_range": [
+58.0,
+62.0
+]
+},
+"gh:lyft:8767723002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": 60.0,
+"core_fit": 3,
+"pay_range": [
+58.0,
+62.0
+]
+},
+"gh:lyft:8767697002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": 48.0,
+"core_fit": 3,
+"pay_range": [
+48.0,
+48.0
+]
+},
+"gh:lyft:8862215002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 1,
+"pay_range": [
+34.0,
+36.0
+]
+},
+"gh:lyft:8796054002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 0,
+"pay_range": [
+34.0,
+36.0
+]
+},
+"gh:lyft:8767726002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 55.0,
+"core_fit": 0,
+"pay_range": [
+52.0,
+58.0
+]
+},
+"gh:lyft:8767710002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 45.0,
+"core_fit": 0,
+"pay_range": [
+45.0,
+45.0
+]
+},
+"gh:lyft:8797859002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 45.0,
+"core_fit": 2,
+"pay_range": [
+45.0,
+45.0
+]
+},
+"gh:lyft:8802332002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 53.0,
+"core_fit": 3,
+"pay_range": [
+53.0,
+53.0
+]
+},
+"gh:lyft:8767534002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 0,
+"pay_range": [
+34.0,
+36.0
+]
+},
+"gh:lyft:8797069002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 48.0,
+"core_fit": 0,
+"pay_range": [
+48.0,
+48.0
+]
+},
+"gh:cloudflare:8245197": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:cloudflare:8199958": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:cloudflare:8245211": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:8334884": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:pinterest:8244922": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:pinterest:8138080": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:pinterest:8214757": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:pinterest:8350814": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:pinterest:8138034": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:8138039": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:8214745": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:7838577": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:8214788": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:pinterest:8140217": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:togetherai:5271149007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 41.0,
+"core_fit": 11,
+"pay_range": [
+41.0,
+41.0
+]
+},
+"gh:xai:5255111007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:figureai:4721113006": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 37.5,
+"core_fit": 2,
+"pay_range": [
+35.0,
+40.0
+]
+},
+"gh:point72:8885693002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:point72:8811167002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:point72:8885715002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:point72:8885733002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:point72:7302611002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"gh:point72:8236734002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:point72:7609197002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:point72:7586061002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:point72:7297667002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:point72:8018862002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:point72:7297666002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:point72:7297642002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:doordashusa:8274095": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:doordashusa:8176863": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:doordashusa:8263774": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:doordashusa:8171041": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:neuralink:7565469003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 0,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:7090489003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 4,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:7702527003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 2,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6607398003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 4,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6283663003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 6,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6648992003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 6,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:8020751003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 25.0,
+"core_fit": 1,
+"pay_range": [
+25.0,
+25.0
+]
+},
+"gh:neuralink:6594261003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 5,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:7483748003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 4,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6576326003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 0,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6594422003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 5,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6569018003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 2,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:5469298003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 2,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:6083322003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 1,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:neuralink:5469305003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 35.0,
+"core_fit": 2,
+"pay_range": [
+35.0,
+35.0
+]
+},
+"gh:mwinternshipprogram:8772688002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:mwinternshipprogram:8598324002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:mwinternshipprogram:8606238002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:affirm:8011375003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:affirm:8011590003": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:brex:8936403002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 55.0,
+"core_fit": 2,
+"pay_range": [
+55.0,
+55.0
+]
+},
+"gh:verkada:5210813007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:verkada:5211595007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"gh:verkada:5210942007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"gh:verkada:5219131007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"gh:verkada:5213881007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"gh:verkada:5233011007": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"gh:nuro:7351061": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 13,
+"pay_range": null
+},
+"lv:belvederetrading:cbde47db-c60b-4339-a8f4-a8e4f30505ab": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"lv:belvederetrading:8f06f221-8777-4a4d-b035-40882db5f4a0": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ab:notion:3fba1c39-c5cb-47d7-9ad2-1cec4d7e9d0c": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 57.0,
+"core_fit": 5,
+"pay_range": [
+57.0,
+57.0
+]
+},
+"ab:notion:43ffba97-b64a-4c6a-ac13-c803253c9413": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 57.0,
+"core_fit": 4,
+"pay_range": [
+57.0,
+57.0
+]
+},
+"ab:notion:27090d0f-07d3-419b-adaa-837b5e22f947": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 57.0,
+"core_fit": 5,
+"pay_range": [
+57.0,
+57.0
+]
+},
+"ab:notion:ea6f01b1-dda2-4b0f-b351-d3e7c5e9c9e9": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 57.0,
+"core_fit": 0,
+"pay_range": [
+57.0,
+57.0
+]
+},
+"ab:sierra:34b31b67-268c-4270-b48f-72e59064c96e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 8,
+"pay_range": null
+},
+"ab:sierra:ef896ee9-e903-4a1f-84c2-537373cb9081": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 10,
+"pay_range": null
+},
+"ab:sierra:7af8aa4e-ba84-49ba-bc53-19358f4564ff": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 8,
+"pay_range": null
+},
+"ab:physicalintelligence:0bcf909e-b38b-4276-91a1-e55c4c56a33a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"ab:physicalintelligence:f020ff1a-4b4c-4415-8434-2da5010a7076": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ab:voleon:57f1b666-2f4b-4bad-aac0-fa42a1c8fdf6": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ab:voleon:ef2b0892-1772-4240-a535-4043d66d848e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ab:voleon:e182a100-56cb-4949-9f33-3c26786b41d9": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ab:decagon:16529089-a048-4bc3-8456-3f197135e00b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 11,
+"pay_range": null
+},
+"ab:modal:38888294-6bc7-4dab-b072-6d0f0c2ed79a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ab:perplexity:9246cf02-26fd-4ae8-90c5-639c6e85e9e2": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 8,
+"pay_range": null
+},
+"ab:perplexity:be94e89b-89d5-4f2a-a58b-7929c8d97f92": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ab:perplexity:71168628-1998-47d3-87a9-be7bc56a430d": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+}
+}
