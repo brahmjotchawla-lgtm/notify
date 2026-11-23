@@ -1222,7 +1222,10 @@ def test_alert():
     """Exercise the real delivery path in the real format. The title carries
     [TEST] so it can't be mistaken for a real role."""
     rec = {"company": "Bedrock Robotics", "title": "[TEST] Embedded Systems Intern",
-           "location": "San Francisco, CA", "url": "https://github.com/AbhigyaGoel/vigil",
+           "location": "San Francisco, CA",
+           # Placeholder Apply target for the test push only. A real alert's click
+           # target is rec["url"], the posting's own application page.
+           "url": "https://github.com/brahmjotchawla-lgtm/notify",
            "pay": display.fmt_pay((40, 48)), "season": "Summer 2027",
            "published": time.time() - 2 * 86400, "found": time.time()}
     push_role(rec, "high")
