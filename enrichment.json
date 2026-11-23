@@ -1891,5 +1891,542 @@
 "pay": null,
 "core_fit": 6,
 "pay_range": null
+},
+"wd:nvidia:/job/Armenia-Yerevan/Applied-Research-Intern---2027_JR2030233": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"wd:nvidia:/job/Armenia-Yerevan/Software-Engineering-Intern_JR2030226": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"ls:f3007eae-7ae6-48d3-8e58-2c2ab54559dd": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 11,
+"pay_range": null
+},
+"ls:ea9475c0-e1a5-49fd-aa4c-d3989ac5c9b7": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"ls:12c61451-8c62-417c-b97a-6b13f42bc584": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:d964cbb0-851e-48b9-97f4-66e970586e9a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:5ee0c221-6808-401f-9d4e-a8e71f60785b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:38db92f9-6338-4caa-b797-e738cda127b9": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:079a44ae-b213-4f4c-9088-cc2c48d346b1": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"ls:021c42ed-56c5-498d-9c09-5301ad13605f": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:e4f4a19a-0777-4687-9441-b8f377f86167": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:13994ae1-e484-4b8d-857a-36fdc5cddde3": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 12,
+"pay_range": null
+},
+"ls:810e50c9-00ba-458d-bdb0-89ae72adc9f9": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"ls:4686a41a-e15f-4233-8277-21cb6d26a8c2": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:db089b66-2eb9-4065-b881-267a2232df72": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:04c61af9-3fff-42ea-b8cb-7e2f17ca3778": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:152398c0-8915-4c84-b415-a84c821e1a62": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"ls:a094bbba-b159-429f-905a-e52b9cadc157": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 30.0,
+"core_fit": 4,
+"pay_range": [
+30.0,
+30.0
+]
+},
+"ls:0b08ca4e-bd94-4d3b-b4c8-1fa0807b3175": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"ls:f06b088f-b45f-4daa-a9f2-f680f36623f0": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:1560cb5a-5cc1-4788-aa55-44b8c25b2336": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 25.0,
+"core_fit": 1,
+"pay_range": [
+25.0,
+25.0
+]
+},
+"ls:458415d1-7c6f-417e-9299-30a80dcdf88b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:8c8a1f21-e711-48d0-8cec-601018138920": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:f0aadc2c-2a47-404c-bc18-f3863ab3e456": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:d429d89b-a684-47e8-a3c8-32639ab0d9c8": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"ls:75892e9b-bebc-4e60-9e4b-a763af8e0759": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:479c73d2-b816-4d2e-815c-e11f66aaaccc": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:2c1e4de1-dc7c-4c61-a87f-e32d307d8d5c": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"ls:31b95070-c5a6-4523-b7d4-54fbaa062677": {
+"clearance": false,
+"hw": false,
+"grad_bad": true,
+"grad_only": false,
+"pay": 50.0,
+"core_fit": 3,
+"pay_range": [
+50.0,
+50.0
+]
+},
+"ls:5715d5fe-76a4-46e6-9cea-0b6ab4f8fc11": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:53663e4c-42be-4d2a-ba0f-ac7a0d65da22": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:5b1d76c6-a7ec-4033-afed-6f676bf2129a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:8b98f33d-21b5-4ae4-af04-3b7378193f39": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:9ae967a2-2a47-4196-914c-2b7aa739b941": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:4f672998-821f-4318-8e79-68a8b7d4734b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:e142c984-ca46-4624-af2c-e5061b8b60f2": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 42.0,
+"core_fit": 4,
+"pay_range": [
+42.0,
+42.0
+]
+},
+"ls:b000afca-793b-458b-811c-ebfc26ed646b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 42.0,
+"core_fit": 6,
+"pay_range": [
+42.0,
+42.0
+]
+},
+"ls:aa8461e0-479c-42e8-b21c-4489e4881002": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"ls:ff726677-73d4-416f-9342-25617fee706e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 9,
+"pay_range": null
+},
+"ls:f5390082-331a-4384-ba8f-6385c2291080": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:32e32073-854a-4b16-8adf-f981a6901e09": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"ls:c61645da-785b-4921-a413-a019a2fd8b4e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 7,
+"pay_range": null
+},
+"ls:9019bee1-e862-4a98-8ce2-db27dfc5283a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"ls:69040dc4-2a49-4a97-8a41-75f8926c7b5a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ls:54936466-1738-4f96-99aa-7dca5c1c5fb1": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:53d06972-e847-4ab6-baf8-27f2642beba6": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:3a5ca7be-fe69-4dc6-90df-9bdae4a796cc": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 8,
+"pay_range": null
+},
+"ls:1fb1e49e-1a9d-40ea-9146-1df231b49971": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:1c50abfc-6825-4aa2-8dff-f244f74c75bf": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ls:0311ac29-d2ee-4cf9-ae1e-28a3abdb428c": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ls:583da786-a806-4182-a9ea-6299307644ac": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ls:475c6e64-fc16-434f-a3fc-59634cda73e3": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:9b049391-06b9-426f-8b33-6c1b1de9fca8": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 6,
+"pay_range": null
+},
+"ls:c03b7a2c-d1b6-4e44-bfc8-e638eeb45dac": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:df848f9e-ca3e-4ea9-ac5c-e1e9596730ba": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 4,
+"pay_range": null
+},
+"ls:b39e7951-0395-4c53-8303-28b2f26bd237": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"ls:1f8cd2ed-d3dd-41e6-b73e-dd4305de1590": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:8f05dd2f-befa-4ddd-8488-134b03cc716d": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 11,
+"pay_range": null
 }
 }
