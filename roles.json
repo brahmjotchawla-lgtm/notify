@@ -1,5 +1,305 @@
 [
 {
+"id": "ls:a6e7484a-77b3-4267-ac3d-8200ef4a75c1",
+"company": "Amazon",
+"title": "Software Development Engineer Intern - Artificial General Intelligence",
+"location": "Boston, MA, Seattle, WA, Bellevue, WA, Sunnyvale, CA",
+"url": "https://amazon.jobs/en/jobs/10606968/software-development-engineer-intern-artificial-general-intelligence-summer-2027",
+"score": 4,
+"tier": "A",
+"posted": 1795475472,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "default"
+},
+{
+"id": "ls:2f809092-b7fc-460f-a4e3-0bb90bdac60b",
+"company": "Microsoft",
+"title": "Researcher Intern - Coreai",
+"location": "Redmond, WA, Mountain View, CA",
+"url": "https://apply.careers.microsoft.com/careers/job/1970393557027387",
+"score": 3,
+"tier": "A",
+"posted": 1792055064,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:29b21ac0-b37f-4d26-b196-d238a0c90ce2",
+"company": "Meta",
+"title": "Research Scientist Intern - Spatial-temporal Consistent 4D Generation",
+"location": "Redmond, WA",
+"url": "https://www.metacareers.com/jobs/2357948038329505",
+"score": 3,
+"tier": "A",
+"posted": 1795475310,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "default"
+},
+{
+"id": "ls:04eb8758-e0be-4ae4-aca7-40e1626d3e24",
+"company": "TikTok",
+"title": "Backend Software Engineer Intern - Product Infrastructure",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7667935633764370741",
+"score": 6,
+"tier": "B",
+"posted": 1785824431,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:44dacd86-f76d-414d-9cb5-9dd6a0211b2d",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - Ads Signal & Measurement",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7669700361976809733",
+"score": 6,
+"tier": "B",
+"posted": 1785824410,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:ac3e3883-21b0-4ad1-8011-bf5060c01aab",
+"company": "TikTok",
+"title": "Research Engineer Intern - Agentic Systems & AI Infrastructure - Generalized Architecture",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7667934792727906565",
+"score": 6,
+"tier": "B",
+"posted": 1785737703,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:34fa4813-bc92-4deb-8987-cf33bc625246",
+"company": "ByteDance",
+"title": "GPU/AI Application System Software Engineer Intern - System Technologies and Engineering",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7668464504736876853/detail",
+"score": 6,
+"tier": "B",
+"posted": 1785978875,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:254d1c36-2e43-4f3a-86fc-ec06b7e8a725",
+"company": "ByteDance",
+"title": "AI Perception Intern - Pico",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7665457718334425349/detail",
+"score": 5,
+"tier": "B",
+"posted": 1785748598,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:fe93fbfa-cba0-4f3c-8f20-9cbc4828ef01",
+"company": "ByteDance",
+"title": "Student Researcher Intern - AI Foundation Models Infrastructure - Seed Infra",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7670330161462364421/detail",
+"score": 5,
+"tier": "B",
+"posted": 1785921282,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:91782cd8-b605-4363-a260-dc99dd6c6413",
+"company": "TikTok",
+"title": "Software Engineer Intern",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7668675500744837381",
+"score": 4,
+"tier": "B",
+"posted": 1785737699,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:a7327377-6839-4afe-a0e7-a1e99135d7b4",
+"company": "ByteDance",
+"title": "Software Engineer Intern - AI Infra Compute",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7667378931599214853/detail",
+"score": 3,
+"tier": "B",
+"posted": 1785748596,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:d96b68e1-8512-4890-8276-eac5392e1f2d",
+"company": "ByteDance",
+"title": "Software Engineer Intern - AI Infrastructure Compute",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7667377525182662965/detail",
+"score": 3,
+"tier": "B",
+"posted": 1785748596,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:b1a212f9-bfdc-4a20-bc91-e34800cb57f6",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - Commercial AI-CRM and Transaction",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7669702702763018501",
+"score": 3,
+"tier": "B",
+"posted": 1785824407,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:6f26ea4e-9081-475e-a1fa-ab0a978643f5",
+"company": "ByteDance",
+"title": "Video/Image AI/ML Software Engineer Intern - Multimedia",
+"location": "San Diego, CA",
+"url": "https://jobs.bytedance.com/en/position/7670354329765464373/detail",
+"score": 3,
+"tier": "B",
+"posted": 1785978865,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
+"id": "ls:f2aef99d-5325-4d85-b025-b5d38d673a4a",
+"company": "ByteDance",
+"title": "Student Researcher - Compiler - Seed Infra",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7670317975513794869/detail",
+"score": 0,
+"tier": "B",
+"posted": 1785892501,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795489648.2521868,
+"delivery": "board"
+},
+{
 "id": "ls:8f05dd2f-befa-4ddd-8488-134b03cc716d",
 "company": "TikTok",
 "title": "Software Engineer Intern - Agentic Creation-Effect Platform",
