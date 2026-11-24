@@ -1,5 +1,203 @@
 [
 {
+"id": "wd:nvidia:/job/US-CA-Santa-Clara/Developer-Technology-Intern--AI---Summer-2027_JR2030178",
+"company": "NVIDIA",
+"title": "Developer Technology Intern, AI - Summer 2027",
+"location": "US, CA, Santa Clara",
+"url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Developer-Technology-Intern--AI---Summer-2027_JR2030178",
+"score": 9,
+"tier": "A",
+"posted": 0,
+"published": 0,
+"terms": null,
+"season": "",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "default"
+},
+{
+"id": "ls:76570b32-69dc-4557-ad0d-dfd2480f1605",
+"company": "TikTok",
+"title": "AI Infrastructure Engineer Intern - Recommendation & LLM",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7672671220798818613",
+"score": 6,
+"tier": "B",
+"posted": 1787704451,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:fad1406c-cd92-4587-b376-d9839b629e3c",
+"company": "TikTok",
+"title": "LLM Post-training Engineer Intern - Research & Product",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7670285031018432773",
+"score": 4,
+"tier": "B",
+"posted": 1785979104,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:baeedb05-7415-43b1-a352-ff0efdc23b6b",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Recommendation Mall",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7672920375646488885",
+"score": 3,
+"tier": "B",
+"posted": 1786545120,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:4b81bd00-4b97-4ec4-954b-892368c48de0",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Knowledge Graph",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7676652813409552645",
+"score": 3,
+"tier": "B",
+"posted": 1788152841,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:30c6e50a-a52b-4624-ad9a-bff649958700",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Knowledge Graph",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7676650607912601861",
+"score": 3,
+"tier": "B",
+"posted": 1788152841,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:768f4b89-5b54-45bb-9e39-72e0b86c8110",
+"company": "ByteDance",
+"title": "Machine Learning Research Scientist Intern - Seed AI for Science - Atomistic AI",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7670855041951795509/detail",
+"score": 2,
+"tier": "B",
+"posted": 1786065257,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:56a336eb-1d80-47cd-8cc9-16332d5fdb2d",
+"company": "ByteDance",
+"title": "Cloud Acceleration Research Intern - DPU & AI Infra",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7679562740656933125/detail",
+"score": 2,
+"tier": "B",
+"posted": 1788219539,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:12ce91e5-ff1f-4f2b-bbb6-297143bdf479",
+"company": "ByteDance",
+"title": "Cloud Acceleration Research Intern - DPU & AI Infra",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7679552807864879365/detail",
+"score": 2,
+"tier": "B",
+"posted": 1788219540,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
+"id": "ls:335f80f5-c466-4364-a041-7daa9748daa0",
+"company": "HP IQ",
+"title": "Software Engineer Intern - AML Platform",
+"location": "SF",
+"url": "https://job-boards.greenhouse.io/hpiq/jobs/6114781004",
+"score": 6,
+"tier": "B",
+"posted": 1788217502,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "$40-50/hr",
+"bigco": true,
+"geo": "us",
+"found": 1795562240.286512,
+"delivery": "board"
+},
+{
 "id": "ls:bf7e70ee-2c50-4692-9d4f-717271c5334f",
 "company": "AQR Capital Management",
 "title": "Micro-Intern - IAP",
