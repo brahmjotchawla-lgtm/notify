@@ -1,5 +1,225 @@
 [
 {
+"id": "ls:bf7e70ee-2c50-4692-9d4f-717271c5334f",
+"company": "AQR Capital Management",
+"title": "Micro-Intern - IAP",
+"location": "Greenwich, CT",
+"url": "https://job-boards.greenhouse.io/joblinks/jobs/8176978",
+"score": 3,
+"tier": "A",
+"posted": 1788451946,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:10aab0a0-09f3-44a8-990e-a5b8db3c8da8",
+"company": "ByteDance",
+"title": "Visual Generation & Multimodal Evaluation Machine Learning Engineer Intern - Aml-Ark",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7671105026009925893/detail",
+"score": 6,
+"tier": "B",
+"posted": 1786388387,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:e24c2017-99ff-4c15-9636-3246335193a8",
+"company": "ByteDance",
+"title": "Agent Evaluation & Evolution Machine Learning Engineer Intern - Applied Machine Learning Ark",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7671096345243535669/detail",
+"score": 6,
+"tier": "B",
+"posted": 1786388381,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:e670d442-7188-4ebf-a019-6706835ae548",
+"company": "ByteDance",
+"title": "Agent Evaluation & Evolution Machine Learning Engineer Intern - Applied Machine Learning Ark",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7672391300141877557/detail",
+"score": 6,
+"tier": "B",
+"posted": 1786468730,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:4f77c21f-b6c5-45b9-87c7-4087d47b9589",
+"company": "ByteDance",
+"title": "Visual Generation & Multimodal Evaluation Machine Learning Engineer Intern - AML-ARK",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7672392998231050549/detail",
+"score": 6,
+"tier": "B",
+"posted": 1786468730,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:d1768aee-f240-4353-b609-278b04785c95",
+"company": "TikTok",
+"title": "Software Engineer Intern - Global E-commerce-Search",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7670839727059339525",
+"score": 4,
+"tier": "B",
+"posted": 1786371587,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:f9783cfd-0933-41da-8102-1c15ae7d9c3c",
+"company": "TikTok",
+"title": "Software Engineer Intern - Recommendation Infra - Performance Efficiency",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7675159726676101381",
+"score": 4,
+"tier": "B",
+"posted": 1787190347,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:37258bf6-9a8c-4245-bc45-0fb8e73fecca",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Recommendation Foundation",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7672883129493948677",
+"score": 3,
+"tier": "B",
+"posted": 1786545121,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:0d1a5d14-2cc4-4c85-a1a6-aa02ecc2b4f8",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Recommendation Foundation",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7672881840860940597",
+"score": 3,
+"tier": "B",
+"posted": 1786545121,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:a908b011-3049-4c5c-831e-b0a4e17ddebf",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7675847556668295429",
+"score": 3,
+"tier": "B",
+"posted": 1787217439,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
+"id": "ls:fab6a94b-bce1-404c-bb49-443ecf37e5e8",
+"company": "ByteDance",
+"title": "Student Researcher - AI Foundation Model Infrastructure - Seed",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7673274430383032629/detail",
+"score": 2,
+"tier": "B",
+"posted": 1786601825,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795527393.3605123,
+"delivery": "board"
+},
+{
 "id": "ls:a6e7484a-77b3-4267-ac3d-8200ef4a75c1",
 "company": "Amazon",
 "title": "Software Development Engineer Intern - Artificial General Intelligence",
