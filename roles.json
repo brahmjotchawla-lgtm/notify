@@ -1,5 +1,163 @@
 [
 {
+"id": "ls:20754e5e-e165-40e6-b859-c1dca81f7bdf",
+"company": "TikTok",
+"title": "Machine Learning Infrastructure Engineer Intern - Ads Infrastructure",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7668881813744191749",
+"score": 6,
+"tier": "B",
+"posted": 1785824409,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:5b7f08a3-2a1a-4cc9-9c45-1c1354b90913",
+"company": "ByteDance",
+"title": "Student Researcher - AI Foundation Models Infrastructure - Seed Infra",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7669973602626308357/detail",
+"score": 5,
+"tier": "B",
+"posted": 1785892508,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:14e4b536-7764-4b98-b518-83d0feea8ec0",
+"company": "ByteDance",
+"title": "Research Intern - AI Compute Efficiency & Scheduling",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7668804309487749429/detail",
+"score": 2,
+"tier": "B",
+"posted": 1785834876,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:208a259f-86eb-4abe-9157-64f5a84a17ca",
+"company": "ByteDance",
+"title": "Research Intern - AI Compute Efficiency & Scheduling",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7668802153418475829/detail",
+"score": 2,
+"tier": "B",
+"posted": 1785834864,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:5033a3e5-8ceb-4617-8848-e12baa6486b4",
+"company": "ByteDance",
+"title": "Infrastructure Intern - AI Foundation Models Infrastructure - Seed Infra",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7670314064148810037/detail",
+"score": 2,
+"tier": "B",
+"posted": 1785921277,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:cdf9395b-da0f-432f-9723-65b649252bd5",
+"company": "ByteDance",
+"title": "Student Researcher - AI Foundation Models Infrastructure - Seed Infra",
+"location": "Seattle, WA",
+"url": "https://jobs.bytedance.com/en/position/7670329439609850165/detail",
+"score": 2,
+"tier": "B",
+"posted": 1785921279,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "ls:553e936d-d5c4-4aff-b6a3-b91ff60b0afb",
+"company": "AXQ Capital",
+"title": "Quantitative Research Intern - Summer 2027",
+"location": "NYC",
+"url": "https://job-boards.greenhouse.io/axq/jobs/6181069004",
+"score": 1,
+"tier": "B",
+"posted": 1788477399,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "$75-100/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
+"id": "wd:nvidia:/job/Germany-Wuerselen/Developer-Technology-Intern---Video_JR2029859",
+"company": "NVIDIA",
+"title": "Developer Technology Intern - Video",
+"location": "Germany, Wuerselen",
+"url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Germany-Wuerselen/Developer-Technology-Intern---Video_JR2029859",
+"score": 4,
+"tier": "B",
+"posted": 0,
+"published": 0,
+"terms": null,
+"season": "",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795622426.2976499,
+"delivery": "board"
+},
+{
 "id": "gh:neuralink:8197808003",
 "company": "Neuralink",
 "title": "Electrical Test Engineer Intern",
