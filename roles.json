@@ -1,5 +1,65 @@
 [
 {
+"id": "ls:18d68763-3c47-4ab5-b01f-6be06b7897f9",
+"company": "Microsoft",
+"title": "Research Intern - Machine Learning for Biology and Healthcare",
+"location": "Redmond, WA",
+"url": "https://apply.careers.microsoft.com/careers/job/1970393557097217",
+"score": 5,
+"tier": "A",
+"posted": 1795651228,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795680959.5811033,
+"delivery": "default"
+},
+{
+"id": "ls:526c5ca9-8840-4cfe-97ac-82375a5deade",
+"company": "ByteDance",
+"title": "Student Researcher Intern - Seed Model - Seed Responsible AI",
+"location": "San Jose, CA",
+"url": "https://jobs.bytedance.com/en/position/7688841262493485365/detail",
+"score": 2,
+"tier": "B",
+"posted": 1790212783,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795680959.5811033,
+"delivery": "board"
+},
+{
+"id": "ls:1a06ffe6-c658-4376-9126-92f68023b3b9",
+"company": "Qualcomm",
+"title": "Low Power AI Software Development Intern - Interim Engineering Intern - Software",
+"location": "Markham, ON, Canada",
+"url": "https://qualcomm.eightfold.ai/careers/job/446721143440",
+"score": 6,
+"tier": "B",
+"posted": 1789694579,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795680959.5811033,
+"delivery": "board"
+},
+{
 "id": "gh:coinbase:8415869",
 "company": "Coinbase",
 "title": "Security Engineer Intern",
