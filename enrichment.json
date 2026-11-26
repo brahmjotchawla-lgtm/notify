@@ -6046,5 +6046,536 @@
 "pay": null,
 "core_fit": 5,
 "pay_range": null
+},
+"ls:33fee74b-b1b5-410a-8477-e050b2b8614c": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:65953c6c-4e10-43b0-bebf-f1a326199c76": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:9861557d-858b-485b-a94e-ae1705e8c149": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:5a520635-ec7f-4867-add0-a06b434d8203": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:ee8ed5ad-3be9-407e-8020-0d9a037d60be": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 1,
+"pay_range": null
+},
+"ls:756c644e-8ae2-4cba-adb6-f26f5d0532ef": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:5a6a3b7d-8952-4587-b1b9-cacb4d25feec": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:468b84e5-6585-46ca-a0bc-c17392fa706d": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 3,
+"pay_range": null
+},
+"ls:f9cecf37-3d67-4284-acf1-bce7d8f9994e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:2f66f3c8-4ff6-4ae9-a40e-ab8552e65340": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:68e6a9de-b100-4023-b025-dddbc6addbeb": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:20de5e49-f3f4-4acd-9ae0-e82d4edd0521": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:b5399343-6879-4858-98ed-d087567c8913": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:ec241207-37cb-48f4-aa65-cf19d960f7a2": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:57bebd99-f029-4628-b0dc-3532c4f03181": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:7a4c54a2-858e-4678-90f3-93bba7644c52": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:d27ce4c9-b5bf-4de0-a7f5-2e540532f643": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:4b9d78b3-d750-42ee-97cc-51f50e53e928": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:02f8a929-c160-48c2-818b-cebd23779a18": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:0efc8582-bd30-4197-a5c3-cb1555baf0fd": {
+"clearance": false,
+"hw": false,
+"grad_bad": true,
+"grad_only": false,
+"pay": 30.0,
+"core_fit": 2,
+"pay_range": [
+30.0,
+30.0
+]
+},
+"ls:6f576614-627b-4348-9a04-178f26b01381": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:8d8ac70c-4524-4e6c-abd0-378889133e68": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:05c9b1e2-1f2b-4278-a44f-e94d1a919981": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:7e94c6d9-c88c-4d70-8bd0-51a2cc801485": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 31.0,
+"core_fit": 4,
+"pay_range": [
+31.0,
+31.0
+]
+},
+"ls:9cb9b3d0-14d5-47cb-bd55-ce2ce7c5213e": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 30.0,
+"core_fit": 2,
+"pay_range": [
+30.0,
+30.0
+]
+},
+"ls:1c05aeb6-1548-460d-ac98-cca04204d3a7": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:aa9bd6f2-fc80-4c29-8eb6-486d2a116c7b": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 40.0,
+"core_fit": 4,
+"pay_range": [
+40.0,
+40.0
+]
+},
+"ls:7f191783-2ab3-4626-a830-2072091a9f5a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:bc6412bd-7dbe-456e-8c67-d2002acadeaa": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 2,
+"pay_range": null
+},
+"ls:ebc1e083-3dd2-4d20-a7fc-21b48d9f3a63": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:8829a1c0-3369-4ffa-ad10-13cbf936c3c7": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:7f4eeec4-3a57-4a6a-baac-95d259c931a2": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 37.0,
+"core_fit": 4,
+"pay_range": [
+37.0,
+37.0
+]
+},
+"ls:fad9fce5-3ae4-4bc8-b290-7a858a041a0a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 33.0,
+"core_fit": 1,
+"pay_range": [
+33.0,
+33.0
+]
+},
+"ls:0dd2a24d-6ed2-46e0-ad44-2b1f11989d18": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:8a308b93-06a7-472d-a655-a49f2bf19ab1": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:b9e02195-e8aa-4296-8ba7-766a14912486": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 5,
+"pay_range": null
+},
+"ls:8ec2033a-ce88-4b22-8928-f0bcfa00049a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:422500a8-0786-49f2-b8bc-d16971d96cd8": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:6d096fd6-91d6-425b-9d76-fdb3eea54dd1": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 40.0,
+"core_fit": 2,
+"pay_range": [
+40.0,
+40.0
+]
+},
+"ls:827ccc8c-5daf-4ca9-90a9-badca54261a8": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:7747e648-90c3-47bb-a0ae-b1c7f3ebb5e5": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:3547945d-8818-43f2-878c-5ba1e5fc23e5": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 40.0,
+"core_fit": 0,
+"pay_range": [
+40.0,
+40.0
+]
+},
+"ls:6e2de8e6-b0dd-45d3-915d-9fc952cc4a7f": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 42.0,
+"core_fit": 2,
+"pay_range": [
+42.0,
+42.0
+]
+},
+"ls:a30de93c-bc93-469c-bd77-3bb267556f84": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:037d751e-e964-4164-ad1e-5cd1b7b6cb57": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:820f340e-8485-4c82-88a9-64ba5b31a76d": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:7221b5ee-e8cc-4524-8eaa-271123e68f19": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:276b9b18-94f2-45df-8f22-e098bd1a84b1": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:25f578d9-1330-4ae5-9608-a7740ea38a81": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 29.0,
+"core_fit": 4,
+"pay_range": [
+29.0,
+29.0
+]
+},
+"ls:c2a0262e-8fac-4306-9c0f-0ef0424bb16a": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 19.0,
+"core_fit": 0,
+"pay_range": [
+19.0,
+19.0
+]
+},
+"ls:4a804898-e17f-46b7-9518-a3588d965783": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": true,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:ab9d6fe2-4418-4dc1-b625-1960b7c14166": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:b645d72b-c6ef-4d01-9338-2730eccd3665": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": 33.0,
+"core_fit": 0,
+"pay_range": [
+23.0,
+43.0
+]
+},
+"ls:39440a28-111a-4535-887b-1a683c23ef54": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
+},
+"ls:a9abc1d3-27bf-4290-9ab4-f785087a3634": {
+"clearance": false,
+"hw": false,
+"grad_bad": false,
+"grad_only": false,
+"pay": null,
+"core_fit": 0,
+"pay_range": null
 }
 }
