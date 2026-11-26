@@ -1,5 +1,143 @@
 [
 {
+"id": "gh:coinbase:8415869",
+"company": "Coinbase",
+"title": "Security Engineer Intern",
+"location": "Hybrid - New York, NY",
+"url": "https://www.coinbase.com/careers/positions/8415869?gh_jid=8415869",
+"score": 4,
+"tier": "A",
+"posted": 1795642999.0,
+"published": 1795638133.0,
+"terms": null,
+"season": "",
+"pay": "$60/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "high"
+},
+{
+"id": "ls:d18679b9-d87f-4ffd-a1c2-72c408274aba",
+"company": "TikTok",
+"title": "AI/ML Infrastructure Engineer Intern - Data-Arch-Tiktok Live",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7670876223732762933",
+"score": 6,
+"tier": "B",
+"posted": 1786112667,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
+"id": "ls:fefe3900-bf9a-4fe1-8ede-259288aed3e1",
+"company": "Intuit",
+"title": "AI Scientist Intern",
+"location": "NYC, Mountain View, CA, Atlanta, GA, San Diego, CA",
+"url": "https://jobs.intuit.com/job/mountain-view/summer-2027-ai-science-intern/27595/100620927536",
+"score": 5,
+"tier": "B",
+"posted": 1789420088,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "$42.69-86.68/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
+"id": "ls:2e3471cf-662d-486a-853c-85c6a9936243",
+"company": "Veeam Software",
+"title": "Policy Engineering Intern",
+"location": "San Jose, CA",
+"url": "https://job-boards.eu.greenhouse.io/veeamsoftware/jobs/4955482101",
+"score": 4,
+"tier": "B",
+"posted": 1789165510,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
+"id": "ls:7b2cb969-df39-4029-8cdf-b12669432319",
+"company": "Veeam Software",
+"title": "Machine Learning Intern - AI",
+"location": "San Jose, CA",
+"url": "https://job-boards.eu.greenhouse.io/veeamsoftware/jobs/4971207101",
+"score": 2,
+"tier": "B",
+"posted": 1789165503,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
+"id": "ls:5dd56415-18be-4d9a-9af3-671669a58563",
+"company": "Intuit",
+"title": "AI Research Intern",
+"location": "Mountain View, CA",
+"url": "https://jobs.intuit.com/job/mountain-view/summer-2027-phd-ai-research-intern/27595/100620927776",
+"score": 2,
+"tier": "B",
+"posted": 1789420087,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "$64.2-86.68/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
+"id": "ls:33e34902-06c8-45f2-b648-693e90686d24",
+"company": "Waymo",
+"title": "Summer Intern - Driver Understanding and Evaluation - Large Model Evaluation",
+"location": "Mountain View, CA",
+"url": "https://careers.withwaymo.com/jobs?gh_jid=8415223",
+"score": 0,
+"tier": "B",
+"posted": 1795627505,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795651837.6479402,
+"delivery": "board"
+},
+{
 "id": "ls:20754e5e-e165-40e6-b859-c1dca81f7bdf",
 "company": "TikTok",
 "title": "Machine Learning Infrastructure Engineer Intern - Ads Infrastructure",
