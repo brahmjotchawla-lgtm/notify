@@ -2,32 +2,32 @@
 "yield_since": "2026-11-23",
 "yield": {
 "greenhouse": {
-"scanned": 143158,
+"scanned": 155113,
 "A": 110,
 "B": 50
 },
 "lever": {
-"scanned": 120,
+"scanned": 130,
 "A": 2,
 "B": 0
 },
 "ashby": {
-"scanned": 25221,
+"scanned": 27334,
 "A": 9,
 "B": 5
 },
 "workday:NVIDIA": {
-"scanned": 3568,
+"scanned": 3861,
 "A": 20,
 "B": 13
 },
 "listings_feed": {
-"scanned": 61045,
+"scanned": 66105,
 "A": 257,
-"B": 135
+"B": 138
 },
 "atom_feed": {
-"scanned": 1200,
+"scanned": 1300,
 "A": 0,
 "B": 0
 }
@@ -44,6 +44,7 @@
 0.9972,
 1.0,
 0.9981,
-0.9962
+0.9962,
+0.9971
 ]
 }

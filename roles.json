@@ -1,5 +1,65 @@
 [
 {
+"id": "ls:5b324f86-93db-4206-a6be-2406d36267e0",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - Monetization Technology - Ads Core Global",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7687630614472149301",
+"score": 6,
+"tier": "B",
+"posted": 1791450861,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795808321.5466142,
+"delivery": "board"
+},
+{
+"id": "ls:e8eec34a-bd13-454c-b322-cab784a820fa",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Recommendation Live",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7694360097210861829",
+"score": 6,
+"tier": "B",
+"posted": 1792017649,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795808321.5466142,
+"delivery": "board"
+},
+{
+"id": "ls:f9331c57-9f2e-4121-826e-ffb2283c7dac",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - Conversational AI",
+"location": "Seattle, WA",
+"url": "https://lifeattiktok.com/search/7670689681491364101",
+"score": 3,
+"tier": "B",
+"posted": 1791594738,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795808321.5466142,
+"delivery": "board"
+},
+{
 "id": "ls:484795df-9f5d-4137-aada-8bc8059146a3",
 "company": "Tenstorrent",
 "title": "AI Software Intern",
