@@ -1,5 +1,45 @@
 [
 {
+"id": "ls:d5b13036-27ec-4902-ba94-12246ec895a1",
+"company": "Astera Labs",
+"title": "ATE Engineer Intern - Engineering Ops Technology Intern",
+"location": "San Jose, CA",
+"url": "https://job-boards.greenhouse.io/asteraearlycareer2027/jobs/4731409005",
+"score": 4,
+"tier": "B",
+"posted": 1791267440,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "$35/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795744496.0464954,
+"delivery": "board"
+},
+{
+"id": "ls:7c51e306-a24c-4fac-b188-b36e0bc3f128",
+"company": "TikTok",
+"title": "Machine Learning Engineer Intern - E-Commerce Recommendation Mall",
+"location": "San Jose, CA",
+"url": "https://lifeattiktok.com/search/7686283601340369205",
+"score": 3,
+"tier": "B",
+"posted": 1789694014,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795744496.0464954,
+"delivery": "board"
+},
+{
 "id": "ls:18d68763-3c47-4ab5-b01f-6be06b7897f9",
 "company": "Microsoft",
 "title": "Research Intern - Machine Learning for Biology and Healthcare",
