@@ -1,5 +1,65 @@
 [
 {
+"id": "ls:e0945d4c-fd78-4677-981a-b7cf12cea361",
+"company": "Inversion Space",
+"title": "AI & Internal Tools Software Engineer Intern",
+"location": "Playa Vista, LA",
+"url": "https://job-boards.greenhouse.io/inversionspace/jobs/4745076005",
+"score": 6,
+"tier": "B",
+"posted": 1792449144,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "$38-41/hr",
+"bigco": false,
+"geo": "us",
+"found": 1795861675.3822715,
+"delivery": "board"
+},
+{
+"id": "ls:807bcae2-3ba9-4165-9819-a41fe28c13c3",
+"company": "Parallel Wireless",
+"title": "PHY Software Engineer Intern",
+"location": "Bristol, UK",
+"url": "https://jobs.lever.co/parallelwireless/d30be600-d1cd-4579-9875-ac70c72a4426/apply",
+"score": 4,
+"tier": "B",
+"posted": 1792488367,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "tierb",
+"found": 1795861675.3822715,
+"delivery": "board"
+},
+{
+"id": "ls:5909d019-a6db-4841-bb23-8cb269af7f44",
+"company": "Qualcomm",
+"title": "QDSP Hardware Physical Design Intern",
+"location": "Markham, ON, Canada",
+"url": "https://qualcomm.eightfold.ai/careers/job/446721636316",
+"score": 4,
+"tier": "B",
+"posted": 1792447524,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795861675.3822715,
+"delivery": "board"
+},
+{
 "id": "ls:78faf2f2-9391-4542-b593-468ce69a67b5",
 "company": "NVIDIA",
 "title": "Mixed Signal Design Intern",
