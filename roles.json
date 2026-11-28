@@ -1,5 +1,125 @@
 [
 {
+"id": "ls:78faf2f2-9391-4542-b593-468ce69a67b5",
+"company": "NVIDIA",
+"title": "Mixed Signal Design Intern",
+"location": "Santa Clara, CA",
+"url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Mixed-Signal-Design_JR2023502",
+"score": 3,
+"tier": "A",
+"posted": 1787097600,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
+"id": "ls:a0cb4ae7-f3b0-46e6-837b-2e442908bf9b",
+"company": "NVIDIA",
+"title": "Autonomous Vehicles and Robotics Intern",
+"location": "Santa Clara, CA",
+"url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Autonomous-Vehicles-and-Robotics_JR2023496",
+"score": 3,
+"tier": "A",
+"posted": 1787097600,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "us",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
+"id": "ls:9b088f98-7e90-40d5-bb05-abaea98b3759",
+"company": "The Allen Institute for AI",
+"title": "Research Intern - AI for Science",
+"location": "Seattle, WA",
+"url": "https://job-boards.greenhouse.io/thealleninstitute/jobs/8293615",
+"score": 5,
+"tier": "B",
+"posted": 1792448478,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": false,
+"geo": "us",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
+"id": "ls:e473c3fe-63c0-4a4e-be41-a27e89b8f122",
+"company": "Microsoft",
+"title": "Research Intern - Distributed AI systems for agentic workflows",
+"location": "Cambridge, UK",
+"url": "https://apply.careers.microsoft.com/careers/job/1970393557106762",
+"score": 8,
+"tier": "B",
+"posted": 1795823759,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
+"id": "ls:4817c149-ca7d-47b8-b5d6-7a36ddf722a3",
+"company": "Apple",
+"title": "Software Engineer Interview Intern - Apple Services",
+"location": "London, UK",
+"url": "https://jobs.apple.com/en-us/details/200696753",
+"score": 4,
+"tier": "B",
+"posted": 1795821414,
+"published": 0,
+"terms": [
+"N/A"
+],
+"season": "N/A",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
+"id": "ls:a76e7223-bb98-4ed6-af28-3ae42d23856a",
+"company": "NVIDIA",
+"title": "Math Libraries Intern",
+"location": "Canada, Santa Clara, CA, United States",
+"url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Math-Libraries-Intern--cuEST---Summer-2027_JR2028449",
+"score": 3,
+"tier": "B",
+"posted": 1793577600,
+"published": 0,
+"terms": [
+"Summer 2027"
+],
+"season": "Summer 2027",
+"pay": "",
+"bigco": true,
+"geo": "tierb",
+"found": 1795831902.4435449,
+"delivery": "board"
+},
+{
 "id": "ls:5b324f86-93db-4206-a6be-2406d36267e0",
 "company": "TikTok",
 "title": "Machine Learning Engineer Intern - Monetization Technology - Ads Core Global",
